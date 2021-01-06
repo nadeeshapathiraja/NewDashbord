@@ -37,6 +37,6 @@ CREATE TABLE tbl_city (
 CREATE TABLE tbl_area (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     area_name varchar(255),
-    city_id varchar(255),
+    city_id int,
     FOREIGN KEY (city_id) REFERENCES tbl_city(id)
 );

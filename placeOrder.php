@@ -112,11 +112,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 </html>
 
 <?php
-$a = $_SESSION["shopping_cart"];
-$final = json_encode($a);
+
 //$final = json_decode($final);
-echo $final;
-unset($_SESSION["shopping_cart"]);
+
+
 if (isset($_REQUEST['order'])) {
     $first_name = $_REQUEST['first_name'];
     $last_name = $_REQUEST['last_name'];
@@ -126,12 +125,15 @@ if (isset($_REQUEST['order'])) {
     $city = $_REQUEST['city'];
     $place = $_REQUEST['place'];
     $comment = $_REQUEST['comment'];
+    $cart_item = $_SESSION["shopping_cart"];
+    $final_cart_item = json_encode($cart_item);
 
     require_once("config.php");
 
-    $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment')";
+    $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item')";
     $result = mysqli_query($con, $sql);
 
+    unset($_SESSION["shopping_cart"]);
 
 ?>
 <script type="text/javascript">

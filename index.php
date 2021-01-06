@@ -13,30 +13,25 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" style="margin-top: 50px;">
         <div class="row">
             <div class="col-md-6">
                 <a href="kolakanda.php">
-                    <div class="card" style="width:400px">
-                        <img class="card-img-top" src="img_avatar1.png" style="width:100%">
+                    <div class="card" style="width:400px; height: 450px;">
+                        <img src="images/logo.png" alt="#" />
                         <div class="card-body">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text some example text. John Doe is an architect and
-                                engineer
-                            </p>
+                            <h4 class="card-title">Kola Kanda</h4>
+
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-6">
                 <a href="breakfirst.php">
-                    <div class="card" style="width:400px">
-                        <img class="card-img-top" src="img_avatar1.png" style="width:100%">
+                    <div class="card" style="width:400px; height: 450px;">
+                        <img src="images/logo2.jpg" alt="#" />
                         <div class="card-body">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text some example text. John Doe is an architect and
-                                engineer
-                            </p>
+                            <h4 class="card-title">Breakfirst</h4>
                         </div>
                     </div>
                 </a>

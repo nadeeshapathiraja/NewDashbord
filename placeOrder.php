@@ -23,10 +23,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 </head>
 
 <body>
-
-    <div class="container">
-
-
+    <?php include 'menu.php'; ?>
+    <br><br><br><br><br><br><br>
+    <div class="container" style="margin-bottom: 50px;">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Order Details</h4>
@@ -106,7 +105,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
 
     </div>
-
+    <?php include 'footer.php'; ?>
 </body>
 
 </html>

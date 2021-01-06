@@ -12,7 +12,8 @@
 </head>
 
 <body>
-
+    <?php include 'menu.php'; ?>
+    <br><br><br><br><br><br>
     <div class="container" style="margin-top: 50px;">
         <div class="row">
             <div class="col-md-6">
@@ -40,6 +41,7 @@
 
         <br>
     </div>
+    <?php include 'footer.php'; ?>
 
 </body>
 

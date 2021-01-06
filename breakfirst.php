@@ -88,8 +88,11 @@ if (isset($_GET["action"])) {
 </head>
 
 <body>
-    <br />
+    <?php include 'menu.php'; ?>
+    <br><br><br><br><br><br><br>
     <div class="container">
+
+
         <h3 align="center">Shoping Cart </h3><br />
 
         <br />
@@ -192,6 +195,7 @@ if (isset($_GET["action"])) {
     </div>
     </div>
     <br />
+    <?php include 'footer.php'; ?>
 </body>
 
 </html>

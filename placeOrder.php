@@ -112,7 +112,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 </html>
 
 <?php
-
+$a = $_SESSION["shopping_cart"];
+$final = json_encode($a);
+//$final = json_decode($final);
+echo $final;
+unset($_SESSION["shopping_cart"]);
 if (isset($_REQUEST['order'])) {
     $first_name = $_REQUEST['first_name'];
     $last_name = $_REQUEST['last_name'];

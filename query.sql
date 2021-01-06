@@ -11,8 +11,10 @@ CREATE TABLE tbl_product (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name varchar(255),
     description varchar(255),
-    image varchar(255)
+    image varchar(255),
+    type varchar(255)
 );
+
 CREATE TABLE orders (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name varchar(255),
@@ -23,4 +25,18 @@ CREATE TABLE orders (
     city varchar(255),
     place varchar(255),
     comment varchar(255)
+);
+
+CREATE TABLE tbl_city (
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    city_name varchar(255),
+    agent varchar(255),
+    phone varchar(255)
+);
+
+CREATE TABLE tbl_area (
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    area_name varchar(255),
+    city_id varchar(255),
+    FOREIGN KEY (city_id) REFERENCES tbl_city(id)
 );

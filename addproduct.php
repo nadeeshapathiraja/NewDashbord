@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_POST['name'])) {
+if (isset($_POST['name']) && isset($_POST['name'])) {
     if (count($_POST) > 0) {
 
         $errors = array();
@@ -8,12 +8,13 @@ if (isset($_POST['name'])) {
         $file_tmp = $_FILES['image']['tmp_name'];
         $file_name = $_FILES['image']['name'];
         $description = $_POST['description'];
+        $type = $_POST['type'];
 
         // include config file
         require_once("config.php");
         $target = "images/" . basename($file_name);
-    
-        $sql = "INSERT INTO tbl_product (name, image, description) VALUES ('$name','$file_name','$description')";
+
+        $sql = "INSERT INTO tbl_product (name, image, description,type) VALUES ('$name','$file_name','$description','$type')";
         $result = mysqli_query($con, $sql);
 
         if ($result == 1) {
@@ -34,7 +35,7 @@ if (isset($_POST['name'])) {
 <html>
 
 <head>
-    <title>Add Kolakenda</title>
+    <title>Add Kolakenda/Breckfirst</title>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -60,6 +61,7 @@ if (isset($_POST['name'])) {
             <div class="card" style="width:400px">
 
                 <div class="card-body">
+                    <h4>Add Product</h4>
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" name="name">
@@ -69,8 +71,24 @@ if (isset($_POST['name'])) {
                         <input type="file" class="form-control-file" id="image" name="image">
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label for="description">Description:</label>
                         <input type="text" class="form-control" id="description" name="description">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Type:</label><br>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="type" value="kolakanda"
+                                    id="type">Kola Kanda
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="type" id="type"
+                                    value="breakfirst">Breakfirst
+                            </label>
+                        </div>
+
                     </div>
                 </div>
                 <div class="input-group">

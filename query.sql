@@ -1,4 +1,5 @@
 CREATE DATABASE demo;
+-- angampor_kolakenda test
 
 CREATE TABLE users (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -8,6 +9,14 @@ CREATE TABLE users (
 );
 
 CREATE TABLE tbl_product (
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name varchar(255),
+    description varchar(255),
+    image varchar(255),
+    type varchar(255)
+);
+
+CREATE TABLE tbl_product2 (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name varchar(255),
     description varchar(255),

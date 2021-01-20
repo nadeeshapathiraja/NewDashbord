@@ -1,42 +1,15 @@
 <?php
-
-if (isset($_POST['name']) && isset($_POST['type'])) {
-    if (count($_POST) > 0) {
-
-        $errors = array();
-        $name = $_POST['name'];
-        $file_tmp = $_FILES['image']['tmp_name'];
-        $file_name = $_FILES['image']['name'];
-        $description = $_POST['description'];
-        $type = $_POST['type'];
-        $activity = 1;
-
-        // include config file
-        require_once("config.php");
-        $target = "images/" . basename($file_name);
-
-        $sql = "INSERT INTO tbl_product (name, image, description,type,activity) VALUES ('$name','$file_name','$description','$type','$activity')";
-        $result = mysqli_query($con, $sql);
-
-        if ($result == 1) {
-            //uplord file to server
-            //make file uplord path
-            $path = "images/" . $_FILES["image"]["name"];
-            //uplord
-            move_uploaded_file($_FILES["image"]["tmp_name"], $path);
-            //header('location: fullcontrol.php');
-        }
-        header('location: addproduct.php');
-    }
-}
-
-
+require_once("config.php");
+$id_edit = $_REQUEST['id'];
+$query = "SELECT * from tbl_product where id='$id_edit' ";
+$result = mysqli_query($con, $query);
 ?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Add Kolakenda/Breckfirst</title>
+    <title>Update Kolakenda/Breckfirst</title>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -56,34 +29,35 @@ if (isset($_POST['name']) && isset($_POST['type'])) {
     <div class="container">
 
         <form method="post" action="#" enctype="multipart/form-data">
-            <div class="message">
-                <?php if (isset($message)) {
-                    echo $message;
-                } ?>
-            </div>
             <h2>Admin Add Product</h2>
             <div class="card" style="width:400px">
+
+                <?php while ($row = mysqli_fetch_array($result)) { ?>
 
                 <div class="card-body">
 
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name"
+                            value="<?php echo $row['name']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <input type="file" class="form-control-file" id="image" name="image">
+                        <img src='images/<?php echo $row['image']; ?>' width=100px height=100px /><input type="text"
+                            class="form-control" id="image" name="image" value="<?php echo $row['image']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <input type="text" class="form-control" id="description" name="description">
+                        <input type="text" class="form-control" id="description" name="description"
+                            value="<?php echo $row['name']; ?>">
                     </div>
                     <div class="form-group">
+                        <?php if ($row['type'] == 'kolakanda') { ?>
                         <label for="description">Type:</label><br>
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="type" value="kolakanda"
-                                    id="type">Kola Kanda
+                                <input type="radio" class="form-check-input" name="type" value="kolakanda" id="type"
+                                    checked>Kola Kanda
                             </label>
                         </div>
                         <div class="form-check-inline">
@@ -92,9 +66,28 @@ if (isset($_POST['name']) && isset($_POST['type'])) {
                                     value="breakfirst">Breakfirst
                             </label>
                         </div>
+                        <?php } else if ($row['type'] == 'breakfirst') {
+                            ?>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="type" value="kolakanda" id="type"
+                                    checked>Kola Kanda
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="type" id="type"
+                                    value="breakfirst">Breakfirst
+                            </label>
+                        </div>
+                        <?php } ?>
+
 
                     </div>
                 </div>
+                <?php
+                }
+                ?>
                 <div class="input-group">
                     <button class="btn btn-primary" type="submit" name="save">Save</button>
                     <button class="btn btn-warning" type="reset" value="Reset">Reset</button>

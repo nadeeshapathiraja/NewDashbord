@@ -1,3 +1,14 @@
+<!-- Check user is loged in system -->
+<?php
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false) {
+    header("location: login.php");
+}
+?>
+
 <?php
 require_once("config.php");
 $results = mysqli_query($con, "SELECT * FROM tbl_product");
@@ -6,7 +17,6 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
 <html lang="en">
 
 <head>
-    <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -18,7 +28,7 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
 <body>
 
     <div class="container">
-        <h2>Admin Full Control</h2>
+        <h2>Admin Product Control</h2>
 
         <table class="table">
             <thead class="thead-dark">
@@ -26,6 +36,7 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
                     <th>Image</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -36,15 +47,32 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
                         <td><img src='images/<?php echo $row['image']; ?>' width=100px height=100px /><br /></td>
                         <td><?php echo $row['name']; ?></td>
                         <td><?php echo $row['description']; ?></td>
+                        <td><?php echo $row['type']; ?></td>
                         <td>
-                            <a href="full.php?edit=<?php echo $row['id']; ?>" class="btn btn-warning">Edit</a>
-                            <input class="btn btn-danger" name="delete" type="submit" value="Delete">
+
+                            <!-- <input class="btn btn-danger" name="delete" type="submit" value="Delete"> -->
+                            <!-- <a href="fullcontrol.php?del=<?php echo $row['id']; ?>" class="del_btn">Delete</a> -->
+                            <a class="btn btn-warning" href="edit.php?id=<?php echo $row["id"]; ?>">Edit</a>
+                            <a class="btn btn-danger" href="delete.php?id=<?php echo $row["id"]; ?>">Delete</a>
+                            <?php
+                                if ($row['activity'] == 1) {
+
+                                ?>
+                            <input class="btn btn-primary" name="activity" type="submit" value="Active" readonly>
+                            <?php
+                                } else {
+                                ?>
+                            <input class="btn btn-secondary" name="activity" type="submit" value="Active" readonly>
+                            <?php
+                                }
+                                ?>
+
                         </td>
                     </form>
 
                 </tr>
                 <?php
-                    $id_delete = $row['id'];
+                    $id_delete =  $row['id'];
                 } ?>
             </tbody>
         </table>
@@ -54,12 +82,12 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
 </body>
 
 </html>
+
+<!-- Delete -->
 <?php
-
 require_once("config.php");
+
 if (isset($_REQUEST["delete"])) {
-
-
 
     $sql2 = "DELETE FROM tbl_product WHERE id=$id_delete";
 
@@ -68,12 +96,15 @@ if (isset($_REQUEST["delete"])) {
 
     if ($con->query($sql2) === TRUE) {
         echo "Record Delete successfully: $result2<br />";
+?>
+<script type="text/javascript">
+window.location = "fullcontrol.php";
+</script>
+<?php
     } else {
         echo "Error updating record: " . $con->error;
     }
 
     mysqli_close($con);
-
-    header('location: fullcontrol.php');
 }
 ?>

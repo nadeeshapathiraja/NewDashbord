@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
 
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password,user_role) VALUES (?, ?, 'c')"; //admin-a/spplyer-s/customer-c
+        $sql = "INSERT INTO users (username, password,user_role) VALUES (?, ?, 'customer')"; //admin-a/spplyer-s/customer-c
 
         if ($stmt = mysqli_prepare($con, $sql)) {
             // Bind variables to the prepared statement as parameters
@@ -279,20 +279,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method='post'>
 
                             <div class="form-group" <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                                <label class="form-control-label">EMAIL OR PHONE NUMBER</label>
-                                <input type="text" class="form-control" name="username" class="form-control"
+                                <label class="form-control-label">EMail</label>
+                                <input type="email" class="form-control" name="username" class="form-control"
                                     value="<?php echo $username; ?>">
                                 <span class="help-block"><?php echo $username_err; ?></span>
                             </div>
 
                             <div class="form-group" <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>>
-                                <label class="form-control-label">PASSWORD</label>
+                                <label class="form-control-label">Password</label>
                                 <input type="password" name="password" class="form-control" i>
                                 <span class="help-block"><?php echo $password_err; ?></span>
                             </div>
 
                             <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                                <label class="form-control-label">CONFIRM PASSWORD</label>
+                                <label class="form-control-label">Confirm Password</label>
                                 <input type="password" name="confirm_password" class="form-control"
                                     value="<?php echo $confirm_password; ?>">
                                 <span class="help-block"><?php echo $confirm_password_err; ?></span>

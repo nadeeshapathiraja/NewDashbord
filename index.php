@@ -33,7 +33,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     <br><br><br><br><br><br>
     <div class="container" style="margin-top: 50px;">
         <?php
-        if ($_SESSION["user_role"] == "a") {
+        if ($_SESSION["user_role"] == "admin") {
         ?>
 
         <div class="row">
@@ -60,7 +60,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="kolakanda.php">
+                <a href="userControl.php">
                     <div class="card" style="width:300px; height: 350px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
@@ -87,7 +87,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
         <?php
 
-        } else if ($_SESSION["user_role"] == "c") {
+        } else if ($_SESSION["user_role"] == "customer") {
 
         ?>
 

@@ -11,7 +11,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false) {
 
 <?php
 require_once("config.php");
-$results = mysqli_query($con, "SELECT * FROM tbl_product");
+$results = mysqli_query($con, "SELECT * FROM users WHERE user_role='customer'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,23 +30,14 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
     <br><br><br><br><br><br><br>
 
     <div class="container">
-        <h2>Admin Product Control</h2>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <a class="btn btn-info" href="addproduct.php?>">Add Product</a>
-            </div>
-        </div>
-        <br>
+        <h2>Admin User Control</h2>
+
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Type</th>
+                    <th>Email</th>
+                    <th>User Role</th>
+                    <th>Created At</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -54,26 +45,12 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
                 <?php while ($row = mysqli_fetch_array($results)) { ?>
                 <tr>
                     <form action="#">
-                        <td><img src='images/<?php echo $row['image']; ?>' width=100px height=100px /><br /></td>
-                        <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['type']; ?></td>
+                        <td><?php echo $row['username']; ?></td>
+                        <td><?php echo $row['user_role']; ?></td>
+                        <td><?php echo $row['created_at']; ?></td>
                         <td>
-                            <a class="btn btn-warning" href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a>
-                            <a class="btn btn-danger" href="deleteProduct.php?id=<?php echo $row["id"]; ?>">Delete</a>
-                            <?php
-                                if ($row['activity'] == 1) {
-
-                                ?>
-                            <input class="btn btn-primary" name="activity" type="submit" value="Active" readonly>
-                            <?php
-                                } else {
-                                ?>
-                            <input class="btn btn-secondary" name="activity" type="submit" value="Active" readonly>
-                            <?php
-                                }
-                                ?>
-
+                            <a class="btn btn-warning" href="editUser.php?id=<?php echo $row["id"]; ?>">Edit</a>
+                            <a class="btn btn-danger" href="deleteUser.php?id=<?php echo $row["id"]; ?>">Delete</a>
                         </td>
                     </form>
 

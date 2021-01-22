@@ -1,3 +1,4 @@
+<!-- load updated data -->
 <?php
 require_once("config.php");
 $id_edit = $_REQUEST['id'];
@@ -29,7 +30,7 @@ $result = mysqli_query($con, $query);
     <div class="container">
 
         <form method="post" action="#" enctype="multipart/form-data">
-            <h2>Admin Add Product</h2>
+            <h2>Admin Edit Product</h2>
             <div class="card" style="width:400px">
 
                 <?php while ($row = mysqli_fetch_array($result)) { ?>
@@ -43,7 +44,7 @@ $result = mysqli_query($con, $query);
                     </div>
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <img src='images/<?php echo $row['image']; ?>' width=100px height=100px /><input type="text"
+                        <img src='images/<?php echo $row['image']; ?>' width=100px height=100px /><input type="file"
                             class="form-control" id="image" name="image" value="<?php echo $row['image']; ?>">
                     </div>
                     <div class="form-group">
@@ -70,26 +71,55 @@ $result = mysqli_query($con, $query);
                             ?>
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="type" value="kolakanda" id="type"
-                                    checked>Kola Kanda
+                                <input type="radio" class="form-check-input" name="type" value="kolakanda"
+                                    id="type">Kola Kanda
                             </label>
                         </div>
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="type" id="type"
-                                    value="breakfirst">Breakfirst
+                                <input type="radio" class="form-check-input" name="type" id="type" value="breakfirst"
+                                    checked>Breakfirst
                             </label>
                         </div>
                         <?php } ?>
-
-
+                    </div>
+                    <div class="form-group">
+                        <label for="description">State:</label><br>
+                        <?php if ($row['activity'] == '1') { ?>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="activity" value="1" id="activity"
+                                    checked>Activate
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="activity" id="activity"
+                                    value="0">Deactivate
+                            </label>
+                        </div>
+                        <?php } else if ($row['activity'] == '0') {
+                            ?>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="activity" value="1"
+                                    id="activity">Activate
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="activity" id="activity" value="0"
+                                    checked>Deactivate
+                            </label>
+                        </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <?php
                 }
                 ?>
                 <div class="input-group">
-                    <button class="btn btn-primary" type="submit" name="save">Save</button>
+                    <button class="btn btn-primary" type="submit" name="update">Update</button>
                     <button class="btn btn-warning" type="reset" value="Reset">Reset</button>
                 </div>
             </div>
@@ -99,3 +129,48 @@ $result = mysqli_query($con, $query);
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['update'])) {
+    if (isset($_POST['name']) && isset($_POST['type']) && $_FILES['image']['tmp_name']) {
+        if (count($_POST) > 0) {
+
+            $name = $_POST['name'];
+            $file_tmp = $_FILES['image']['tmp_name'];
+            $file_name = $_FILES['image']['name'];
+            $description = $_POST['description'];
+            $type = $_POST['type'];
+            $activity = 1;
+
+            // include config file
+            require_once("config.php");
+            $target = "images/" . basename($file_name);
+
+            $sql2 = "UPDATE tbl_product SET name='$name' , image='$file_name' , description='$description' , type='$type' , activity='$activity' WHERE id=$id_edit";
+            $result2 = mysqli_query($con, $sql2);
+
+            if ($result2 == 1) {
+                //uplord file to server
+                //make file uplord path
+                $path = "images/" . $_FILES["image"]["name"];
+                //uplord
+                move_uploaded_file($_FILES["image"]["tmp_name"], $path);
+                //header('location: fullcontrol.php');
+            }
+            if ($con->query($sql) === TRUE) {
+                echo "Record updated successfully: $result<br />";
+            } else {
+                echo "Error updating record: " . $con->error;
+            }
+
+            mysqli_close($con);
+            echo "<script>alert('Successfully Updated!!!'); window.location='fullcontrol.php'</script>";
+        }
+    } else {
+        echo "<script class='alert alert-danger'>alert('Fill All Fields');</script>";
+    }
+}
+
+
+
+?>

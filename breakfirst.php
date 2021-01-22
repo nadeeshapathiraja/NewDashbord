@@ -152,7 +152,7 @@ if (isset($_GET["action"])) {
 
 
         <br />
-        <h3 align="center">Shoping Store </h3><br />
+        <h3 align="center">Breakfirst List </h3><br />
         <br /><br />
         <?php
         $query = "SELECT * FROM tbl_product ORDER BY id ASC";

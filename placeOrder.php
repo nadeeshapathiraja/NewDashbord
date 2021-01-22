@@ -133,10 +133,11 @@ if (isset($_REQUEST['order'])) {
     $comment = $_REQUEST['comment'];
     $cart_item = $_SESSION["shopping_cart"];
     $final_cart_item = json_encode($cart_item);
+    $ordered_at = date("Y-m-d H:i:s");
 
     require_once("config.php");
 
-    $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item')";
+    $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item,ordered_at) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item','$ordered_at')";
     $result = mysqli_query($con, $sql);
 
     unset($_SESSION["shopping_cart"]);

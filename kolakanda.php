@@ -154,48 +154,56 @@ if (isset($_GET["action"])) {
         <br />
         <h3 align="center">Kolakanda List</h3><br />
         <br /><br />
-        <?php
-        $query = "SELECT * FROM tbl_product ORDER BY id ASC";
-        $result = mysqli_query($con, $query);
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_array($result)) {
-                if ($row["type"] == 'kolakanda') {
-        ?>
-        <div class="col-md-4">
-            <form method="post" action="kolakanda.php?action=add&id=<?php echo $row["id"]; ?>">
-                <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
-                    align="center">
 
-                    <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
-                        style="width: 150px; height: 180px;" /><br />
 
-                    <h4 class="text-info"><?php echo $row["name"]; ?></h4>
+        <div class="row">
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="cupsize" id="cupsize" value="300" checked>
-                        <label class="form-check-label" for="inlineCheckbox2">300ml</label>
+            <?php
+            $query = "SELECT * FROM tbl_product ORDER BY id ASC";
+            $result = mysqli_query($con, $query);
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_array($result)) {
+                    if ($row["type"] == 'kolakanda') {
+            ?>
+            <div class="col-md-4">
+                <form method="post" action="kolakanda.php?action=add&id=<?php echo $row["id"]; ?>">
+                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
+                        align="center">
+
+                        <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
+                            style="width: 150px; height: 180px;" /><br />
+
+                        <h4 class="text-info"><?php echo $row["name"]; ?></h4>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="cupsize" id="cupsize" value="300"
+                                checked>
+                            <label class="form-check-label" for="inlineCheckbox2">300ml</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="cupsize" id="cupsize" value="400">
+                            <label class="form-check-label" for="inlineCheckbox2">400ml</label>
+                        </div>
+
+
+                        <input type="text" name="quantity" value="1" class="form-control" />
+
+                        <input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
+
+                        <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success"
+                            value="Add to Cart" />
+
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="cupsize" id="cupsize" value="400">
-                        <label class="form-check-label" for="inlineCheckbox2">400ml</label>
-                    </div>
+                </form>
+            </div>
 
 
-                    <input type="text" name="quantity" value="1" class="form-control" />
-
-                    <input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
-
-                    <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success"
-                        value="Add to Cart" />
-
-                </div>
-            </form>
-        </div>
-        <?php
+            <?php
+                    }
                 }
             }
-        }
-        ?>
+            ?>
+        </div>
         <div style="clear:both"></div>
         <br />
 

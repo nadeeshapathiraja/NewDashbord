@@ -11,7 +11,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false) {
 
 <?php
 require_once("config.php");
-$results = mysqli_query($con, "SELECT * FROM orders");
+$results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,9 +41,26 @@ $results = mysqli_query($con, "SELECT * FROM orders");
             </div>
         </div>
         <br>
+        <script>
+        function toggle(source) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] != source)
+                    checkboxes[i].checked = source.checked;
+            }
+        }
+        </script>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" onclick="toggle(this);">
+            <label class="form-check-label" for="defaultCheck1">
+                Select All
+            </label>
+        </div>
+        <br>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th> </th>
                     <th>#</th>
                     <th>First Name</th>
                     <th>Last Name</th>
@@ -64,6 +81,11 @@ $results = mysqli_query($con, "SELECT * FROM orders");
                 <tr>
                     <form action="#">
                         <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            </div>
+                        </td>
+                        <td>
                             <?php
                                 echo $i;
                                 $i++;
@@ -77,10 +99,21 @@ $results = mysqli_query($con, "SELECT * FROM orders");
                         <td><?php echo $row['city']; ?></td>
                         <td><?php echo $row['place']; ?></td>
                         <td><?php echo $row['comment']; ?></td>
-                        <td><?php echo $row['final_cart_item']; ?></td>
+                        <td style="width:250px"><?php
+                                                    $data = JSON_DECODE($row['final_cart_item'], true);
+                                                    foreach ($data as $item) {
+                                                        // echo $item["item_name"];
+                                                        $array = json_decode(json_encode($item), true);
+                                                        echo "Name: " . $array['item_name'] . "  " . "Size: " . $array['cupsize'] . "<br>";
+                                                        echo "Quantity: " . $array['item_quantity'] . "<br>";
+                                                        //var_dump($array);
+                                                    }
+                                                    ?>
+
+                        </td>
                         <td><?php echo $row['ordered_at']; ?></td>
                         <td>
-                            <a class="btn btn-warning" href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a>
+                            <a class="btn btn-warning" href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a><br>
                             <a class="btn btn-danger" href="deleteProduct.php?id=<?php echo $row["id"]; ?>">Delete</a>
                         </td>
                     </form>

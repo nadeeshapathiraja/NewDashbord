@@ -84,17 +84,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     </div>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="supplierControl.php">
-                    <div class="card" style="width:300px; height: 350px;">
-                        <img src="images/about.png" alt="#" />
-                        <div class="card-body">
-                            <h4 class="card-title">Supplier Control</h4>
-
-                        </div>
-                    </div>
-                </a>
-            </div>
         </div>
 
         <?php

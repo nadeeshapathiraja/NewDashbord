@@ -165,6 +165,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         color: #ecf0f5;
     }
 
+    input[type="email"] {
+        background-color: #1a2226;
+        border: none;
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        margin-bottom: 20px;
+        padding-left: 0px;
+        color: #ecf0f5;
+    }
+
     input[type="password"] {
         background-color: #1a2226;
         border: none;
@@ -302,11 +315,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-lg-3 col-md-2"></div>
             </div>
         </div>
-
-
-
-
-
 </body>
 
 </html>

@@ -4,16 +4,17 @@ require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
 ?>
-
 <?php
 require_once "config.php";
+
 
 if (isset($_POST["add_to_cart"])) {
     if (isset($_SESSION["shopping_cart"])) {
         $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
         // if (!in_array($_GET["id"], $item_array_id)) {
         $count = count($_SESSION["shopping_cart"]);
-        if ($_POST["size"] == 'regular') {
+        if ($_POST["size"] == '0') {
+
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
@@ -21,7 +22,7 @@ if (isset($_POST["add_to_cart"])) {
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 100
             );
-        } elseif ($_POST["size"] == 1) {
+        } elseif ($_POST["size"] == '1') {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
@@ -37,7 +38,8 @@ if (isset($_POST["add_to_cart"])) {
         //     echo '<script>alert("Item Already Added")</script>';
         // }
     } else {
-        if ($_POST["size"] == 'regular') {
+
+        if ($_POST["size"] == '0') {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
@@ -45,7 +47,7 @@ if (isset($_POST["add_to_cart"])) {
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 100 //Change value 
             );
-        } elseif ($_POST["size"] == 1) {
+        } elseif ($_POST["size"] == "1") {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
@@ -76,7 +78,7 @@ if (isset($_GET["action"])) {
 <html>
 
 <head>
-    <title>Shopping Cart </title>
+    <title>Shopping Cart In PHP and MySql | Webdevtrick.com</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -89,14 +91,14 @@ if (isset($_GET["action"])) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
+
 </head>
 
 <body>
     <?php include 'menu.php'; ?>
     <br><br><br><br><br><br><br>
     <div class="container">
-
-
+        <br>
         <h3 align="center">Shoping Cart </h3><br />
 
         <br />
@@ -117,7 +119,15 @@ if (isset($_GET["action"])) {
                 <tr>
                     <td><?php echo $values["item_name"]; ?></td>
                     <td><?php echo $values["item_quantity"]; ?></td>
-                    <td><?php echo $values["size"]; ?></td>
+                    <td>
+                        <?php
+                                if ($values["size"] == 0) {
+                                    echo "Regular Pack";
+                                } else if ($values["size"] == 1) {
+                                    echo "Combo Pack";
+                                }
+                                ?>
+                    </td>
                     <td>Rs <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
                     <td><a href="breakfirst.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span
                                 class="text-danger">Remove</span></a></td>
@@ -148,9 +158,12 @@ if (isset($_GET["action"])) {
 
 
         <br />
-        <h3 align="center">Breakfirst List </h3><br />
+        <h3 align="center">Breakfirst List</h3><br />
         <br /><br />
+
+
         <div class="row">
+
             <?php
             $query = "SELECT * FROM tbl_product ORDER BY id ASC";
             $result = mysqli_query($con, $query);
@@ -159,7 +172,7 @@ if (isset($_GET["action"])) {
                     $secondtype =  $row["type"];
                     $suppler_city = $row['city'];
                     if ($suppler_city == $city  && $user_role == "customer") { //Check User city equal to product city
-                        if ($secondtype == 'breakfirst') {
+                        if ($row["type"] == 'breakfirst') {
             ?>
             <div class="col-md-4">
                 <form method="post" action="breakfirst.php?action=add&id=<?php echo $row["id"]; ?>">
@@ -172,11 +185,11 @@ if (isset($_GET["action"])) {
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size" value="Regular" checked>
+                            <input class="form-check-input" type="radio" name="size" id="size" value="0" checked>
                             <label class="form-check-label" for="inlineCheckbox2">Regular</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size" value="Combopack">
+                            <input class="form-check-input" type="radio" name="size" id="size" value="1">
                             <label class="form-check-label" for="inlineCheckbox2">Combo Pack</label>
                         </div>
 
@@ -191,11 +204,13 @@ if (isset($_GET["action"])) {
                     </div>
                 </form>
             </div>
+
+
             <?php
                         }
                     }
-                    if ($user_role == "admin") { //Check User is admin
-                        if ($secondtype == 'breakfirst') {
+                    if ($user_role == "admin") {
+                        if ($row["type"] == 'breakfirst') {
                         ?>
             <div class="col-md-4">
                 <form method="post" action="breakfirst.php?action=add&id=<?php echo $row["id"]; ?>">
@@ -208,11 +223,11 @@ if (isset($_GET["action"])) {
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size" value="Regular" checked>
+                            <input class="form-check-input" type="radio" name="size" id="size" value="0" checked>
                             <label class="form-check-label" for="inlineCheckbox2">Regular</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size" value="Combopack">
+                            <input class="form-check-input" type="radio" name="size" id="size" value="1">
                             <label class="form-check-label" for="inlineCheckbox2">Combo Pack</label>
                         </div>
 
@@ -227,16 +242,17 @@ if (isset($_GET["action"])) {
                     </div>
                 </form>
             </div>
+
             <?php
                         }
                     }
                 }
             }
             ?>
-            <div style="clear:both"></div>
-            <br />
-
         </div>
+        <div style="clear:both"></div>
+        <br />
+
     </div>
     </div>
     <br />

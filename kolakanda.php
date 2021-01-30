@@ -203,6 +203,7 @@ if (isset($_GET["action"])) {
                         }
                     }
                     if ($user_role == "admin") {
+                        if ($row["type"] == 'kolakanda') {
                         ?>
             <div class="col-md-4">
                 <form method="post" action="kolakanda.php?action=add&id=<?php echo $row["id"]; ?>">
@@ -237,6 +238,7 @@ if (isset($_GET["action"])) {
             </div>
 
             <?php
+                        }
                     }
                 }
             }

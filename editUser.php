@@ -1,3 +1,9 @@
+<?php
+// Include config file
+require_once "config.php";
+//include auth_session.php file on all user panel pages
+include("auth_session.php");
+?>
 <!-- load updated data -->
 <?php
 require_once("config.php");
@@ -41,6 +47,11 @@ $result = mysqli_query($con, $query);
                         <label for="name">User Name:</label>
                         <input type="text" class="form-control" id="username" name="username"
                             value="<?php echo $row['username']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email"
+                            value="<?php echo $row['email']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="description">User Role:</label>

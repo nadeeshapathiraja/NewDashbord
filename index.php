@@ -1,13 +1,12 @@
-<!-- Check user is loged in system -->
 <?php
-// Initialize the session
-session_start();
+// Include config file
+require_once "config.php";
+//include auth_session.php file on all user panel pages
+include("auth_session.php");
 
-// Check if the user is logged in, if not then redirect him to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
-}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,16 +29,16 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 <body>
     <?php include 'menu.php'; ?>
-    <br><br><br><br><br><br>
+    <br><br><br><br><br><br><br>
     <div class="container" style="margin-top: 50px;">
         <?php
-        if ($_SESSION["user_role"] == "admin") {
+        if ($user_role == "admin") {
         ?>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="addproduct.php">
-                    <div class="card" style="width:300px; height: 350px;">
+                    <div class="card" style="height: 350px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Add Products</h4>
@@ -48,9 +47,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     </div>
                 </a>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="fullcontrol.php">
-                    <div class="card" style="width:300px; height: 350px;">
+                    <div class="card" style="height: 350px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Product Control</h4>
@@ -59,9 +58,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     </div>
                 </a>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="userControl.php">
-                    <div class="card" style="width:300px; height: 350px;">
+                    <div class="card" style="height: 350px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">User Control</h4>
@@ -70,12 +69,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     </div>
                 </a>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-4">
+
+            <div class="col-md-3">
                 <a href="orderControl.php">
-                    <div class="card" style="width:300px; height: 350px;">
+                    <div class="card" style="height: 350px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Order Control</h4>
@@ -88,7 +85,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
         <?php
 
-        } else if ($_SESSION["user_role"] == "customer") {
+        } else if ($user_role == "customer") {
 
         ?>
 
@@ -123,6 +120,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
         <br>
     </div>
+    <br>
     <?php include 'footer.php'; ?>
 
 </body>

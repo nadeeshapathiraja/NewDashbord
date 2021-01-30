@@ -44,38 +44,30 @@
                             <div class="collapse navbar-collapse" id="navbarsExample04">
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="index.php"> Test 1 </a>
+                                        <a class="nav-link" href="https://www.kolakanda.com/"> Home</a>
                                     </li>
                                 </ul>
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="index.php"> Test 2 </a>
+                                        <a class="nav-link" href="https://www.kolakanda.com/"> Contat Us </a>
                                     </li>
                                 </ul>
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="index.php"> Test 3 </a>
+                                        <a class="nav-link" href="index.php"> Order Now</a>
                                     </li>
                                 </ul>
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="index.php"> Store </a>
+                                        <a href="logout.php" class="btn btn-danger">Sign Out</a>
                                     </li>
                                 </ul>
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="index.php"> Test 4 </a>
-                                    </li>
-                                </ul>
+
                             </div>
                             <!-- <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a> -->
 
                         </nav>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col logo_section">
-                        <a href="logout.php" class="btn btn-danger">Sign Out</a>
-                    </div>
-
                 </div>
             </div>
         </div>

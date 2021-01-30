@@ -1,12 +1,8 @@
-<!-- Check user is loged in system -->
 <?php
-// Initialize the session
-session_start();
-
-// Check if the user is logged in, if not then redirect him to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false) {
-    header("location: login.php");
-}
+// Include config file
+require_once "config.php";
+//include auth_session.php file on all user panel pages
+include("auth_session.php");
 ?>
 
 <?php

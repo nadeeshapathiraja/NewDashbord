@@ -1,34 +1,44 @@
 <?php
+if (isset($_REQUEST['save'])) {
+    if (isset($_POST['name']) && isset($_POST['type'])) {
+        if (count($_POST) > 0) {
 
-if (isset($_POST['name']) && isset($_POST['type'])) {
-    if (count($_POST) > 0) {
+            $name = $_POST['name'];
+            $file_tmp = $_FILES['image']['tmp_name'];
+            $file_name = $_FILES['image']['name'];
+            $description = $_POST['description'];
+            $type = $_POST['type'];
+            $city = $_POST['city'];
+            $activity = 1;
 
-        $errors = array();
-        $name = $_POST['name'];
-        $file_tmp = $_FILES['image']['tmp_name'];
-        $file_name = $_FILES['image']['name'];
-        $description = $_POST['description'];
-        $type = $_POST['type'];
-        $activity = 1;
+            // include config file
+            require_once("config.php");
+            $target = "images/" . basename($file_name);
 
-        // include config file
-        require_once("config.php");
-        $target = "images/" . basename($file_name);
+            $sql = "INSERT INTO tbl_product (name, image, description,type,city,activity) VALUES ('$name','$file_name','$description','$type','$city','$activity')";
 
-        $sql = "INSERT INTO tbl_product (name, image, description,type,activity) VALUES ('$name','$file_name','$description','$type','$activity')";
-        $result = mysqli_query($con, $sql);
+            $result = mysqli_query($con, $sql);
 
-        if ($result == 1) {
-            //uplord file to server
-            //make file uplord path
-            $path = "images/" . $_FILES["image"]["name"];
-            //uplord
-            move_uploaded_file($_FILES["image"]["tmp_name"], $path);
-            //header('location: fullcontrol.php');
+            if ($result) {
+                //uplord file to server
+                //make file uplord path
+                $path = "images/" . $_FILES["image"]["name"];
+                //uplord
+                move_uploaded_file($_FILES["image"]["tmp_name"], $path);
+                echo '<div class="alert alert-success">Item Inseration Success..!</div>';
+            } else {
+                echo '<div class="alert alert-danger">Fill All Fields..!</div>';
+            }
+
+            // header('location: fullcontrol.php');
+        } else {
+            echo "erro 1";
         }
-        header('location: addproduct.php');
+    } else {
+        echo "erro 2";
     }
 }
+
 
 
 ?>
@@ -94,7 +104,26 @@ if (isset($_POST['name']) && isset($_POST['type'])) {
                         </div>
 
                     </div>
+                    <div class="form-group">
+                        <label class="form-control-label">City</label>
+
+                        <select id="city" name="city"><br>
+                            <?php
+                            require_once("config.php");
+                            $query = "SELECT * FROM tbl_city";
+                            $result2 = mysqli_query($con, $query);
+                            if (mysqli_num_rows($result2) > 0) {
+                                while ($row = mysqli_fetch_array($result2)) {
+                            ?>
+                            <option value="<?php echo $row['city_name'] ?>">
+                                <?php echo $row["city_name"]; ?></option>
+                            <?php }
+                            } ?>
+                        </select>
+                    </div>
                 </div>
+                <br>
+                <br>
                 <div class="input-group">
                     <button class="btn btn-primary" type="submit" name="save">Save</button>
                     <button class="btn btn-warning" type="reset" value="Reset">Reset</button>

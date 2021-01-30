@@ -1,12 +1,9 @@
-<!-- Check user is loged in system -->
 <?php
-// Initialize the session
-session_start();
-
-// Check if the user is logged in, if not then redirect him to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
-}
+// Include config file
+require_once "config.php";
+//include auth_session.php file on all user panel pages
+include("auth_session.php");
+$email = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +52,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="usr">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="<?php echo $email; ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -143,7 +141,7 @@ if (isset($_REQUEST['order'])) {
     unset($_SESSION["shopping_cart"]);
 
 ?>
-<script type="text/javascript">
+<script type=" text/javascript">
 window.location = "index.php";
 $(document).ready(function() {
     $("form").submit(function() {

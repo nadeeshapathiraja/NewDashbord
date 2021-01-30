@@ -4,8 +4,10 @@ CREATE DATABASE demo;
 CREATE TABLE users (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username varchar(255),
+    email varchar(255),
     password varchar(255),
-    user_role varchar(1)
+    user_role varchar(255),
+    city varchar(255)
 );
 
 CREATE TABLE tbl_product (
@@ -13,7 +15,8 @@ CREATE TABLE tbl_product (
     name varchar(255),
     description varchar(255),
     image varchar(255),
-    type varchar(255)
+    type varchar(255),
+    city varchar(255)
 );
 
 CREATE TABLE tbl_product2 (

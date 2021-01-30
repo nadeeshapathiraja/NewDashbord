@@ -1,46 +1,97 @@
 <?php
+// Initialize the session
+session_start();
 
-error_reporting(0);
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: index.php");
+}
+
 // Include config file
 require_once "config.php";
 
-// When form submitted, check and create user session.
-// Check if username is empty
-if (isset($_REQUEST['submit'])) {
+// Define variables and initialize with empty values
+$username = $password = $user_role = "";
+$username_err = $password_err = "";
 
-    if (empty(trim($_REQUEST["email"]))) {
-        echo '<div class="alert alert-danger">Please enter your Email.</div>';
+// Processing form data when form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Check if username is empty
+    if (empty(trim($_POST["username"]))) {
+        $username_err = "Please enter username.";
     } else {
-        $email = $_REQUEST['email'];
-        // Check if password is empty
-        if (empty(trim($_POST["password"]))) {
-            echo '<div class="alert alert-danger">Please enter your password.</div>';
-        } else {
-            $password = $_REQUEST['password'];
-            if (isset($_REQUEST['email'])) {
+        $username = trim($_POST["username"]);
+    }
 
-                $hashpassword = md5($password);
+    // Check if password is empty
+    if (empty(trim($_POST["password"]))) {
+        $password_err = "Please enter your password.";
+    } else {
+        $password = trim($_POST["password"]);
+    }
 
-                // Check user is exist in the database
-                $query    = "SELECT * FROM users WHERE email='$email'
-                             AND password='$hashpassword'";
-                $result = mysqli_query($con, $query);
 
-                if ($row = mysqli_fetch_array($result)) {
+    // Validate credentials
+    if (empty($username_err) && empty($password_err)) {
+        // Prepare a select statement
+        $sql = "SELECT id, username, password,user_role FROM users WHERE username = ?";
 
-                    session_start();
-                    $_SESSION["email"] = $email;
+        if ($stmt = mysqli_prepare($con, $sql)) {
+            // Set parameters
+            // $param_username = $username;
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $username);
 
-                    header("Location:index.php");
+            // Attempt to execute the prepared statement
+            if (mysqli_stmt_execute($stmt)) {
+                // Store result
+                mysqli_stmt_store_result($stmt);
+
+                // Check if username exists, if yes then verify password
+                if (mysqli_stmt_num_rows($stmt) == 1) {
+                    // Bind result variables
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $user_role);
+
+                    if (mysqli_stmt_fetch($stmt)) {
+
+                        if (password_verify($password, $hashed_password)) {
+                            // Password is correct, so start a new session
+                            session_start();
+                            echo $password;
+
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["username"] = $username;
+                            $_SESSION["user_role"] = $user_role;
+
+                            // Redirect user to welcome page
+                            header("location: index.php");
+                        } else {
+                            echo $hashed_password;
+                            // Display an error message if password is not valid
+                            $password_err = "The password you entered was not valid.";
+                        }
+                    }
                 } else {
-                    echo '<div class="alert alert-danger">Incorrect Username/password...!</div>';
+                    // Display an error message if username doesn't exist
+                    $username_err = "No account found with that username.";
                 }
-                mysqli_close($con);
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
             }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
         }
     }
+
+    // Close connection
+    mysqli_close($con);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,6 +137,7 @@ if (isset($_REQUEST['submit'])) {
         font-size: 80px;
         line-height: 100px;
         background: -webkit-linear-gradient(#27ef9f, #0db8de);
+        -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
@@ -235,16 +287,19 @@ if (isset($_REQUEST['submit'])) {
 
                 <div class="col-lg-12 login-form">
                     <div class="col-lg-12 login-form">
-                        <form action='#' method='post'>
+                        <form action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method='post'>
 
-                            <div class="form-group">
+                            <div class="form-group" <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                                 <label class="form-control-label">Email</label>
-                                <input type="email" class="form-control" name="email" class="form-control">
+                                <input type="email" class="form-control" name="username" class="form-control"
+                                    value="<?php echo $username; ?>">
+                                <span class="help-block"><?php echo $username_err; ?></span>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>>
                                 <label class="form-control-label">Password</label>
-                                <input type="password" name="password" class="form-control">
+                                <input type="password" name="password" class="form-control" i>
+                                <span class="help-block"><?php echo $password_err; ?></span>
                             </div>
 
                             <div class="col-lg-12 loginbttm">
@@ -252,7 +307,7 @@ if (isset($_REQUEST['submit'])) {
                                     <!-- Error Message -->
                                 </div>
                                 <div class="col-lg-6 login-btm login-button">
-                                    <button type="submit" class="btn btn-outline-primary" name="submit">Login</button>
+                                    <button type="submit" class="btn btn-outline-primary">LOGIN</button>
                                 </div>
                             </div>
                             <p class="redirect-page">Don't have an account? <a href="register.php">Sign up now</a></p>

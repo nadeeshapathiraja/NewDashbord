@@ -1,12 +1,8 @@
-<!-- Check user is loged in system -->
 <?php
-// Initialize the session
-session_start();
-
-// Check if the user is logged in, if not then redirect him to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false) {
-    header("location: login.php");
-}
+// Include config file
+require_once "config.php";
+//include auth_session.php file on all user panel pages
+include("auth_session.php");
 ?>
 
 <?php
@@ -35,6 +31,7 @@ $results = mysqli_query($con, "SELECT * FROM users WHERE user_role='customer'");
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th>User Name</th>
                     <th>Email</th>
                     <th>User Role</th>
                     <th>Created At</th>
@@ -46,6 +43,7 @@ $results = mysqli_query($con, "SELECT * FROM users WHERE user_role='customer'");
                 <tr>
                     <form action="#">
                         <td><?php echo $row['username']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
                         <td><?php echo $row['user_role']; ?></td>
                         <td><?php echo $row['created_at']; ?></td>
                         <td>

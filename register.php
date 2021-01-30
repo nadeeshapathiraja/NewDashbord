@@ -1,104 +1,53 @@
 <?php
+
 // Include config file
 require_once "config.php";
+// When form submitted, insert values into the database.
+if (isset($_REQUEST['username'])) {
 
-// Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+    $checkemail = $_REQUEST['email'];
 
-// Processing form data when form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // removes backslashes
+    $username = stripslashes($_REQUEST['username']);
+    $email = stripslashes($_REQUEST['email']);
+    $password = stripslashes($_REQUEST['password']);
+    $confirm_password = stripslashes($_REQUEST['confirm_password']);
+    $city = $_REQUEST['city'];
+    echo $city;
 
-    // Validate username
-    if (empty(trim($_POST["username"]))) {
-        $username_err = "Please enter a username.";
+    $sql = "SELECT * FROM users WHERE  email = $checkemail";
+    $result = mysqli_query($con, $sql);
+
+
+    if ($result) {
+        echo '<div class="alert alert-danger">You are Already Registered..! </div>';
+        unset($_SESSION['email']);
     } else {
-        // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
+        $hashpassword = md5($password);
 
-        if ($stmt = mysqli_prepare($con, $sql)) {
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($stmt)) {
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-
-                if (mysqli_stmt_num_rows($stmt) == 1) {
-                    $username_err = "This username is already taken.";
-                } else {
-                    $username = trim($_POST["username"]);
-                }
+        if ($password == $confirm_password) {
+            $query    = "INSERT into `users` (username, password, email, user_role, city)
+                VALUES ('$username', '$hashpassword', '$email', 'customer', '$city')";
+            $result2   = mysqli_query($con, $query);
+            if ($result2) {
+                echo '<div class="alert alert-success">Successfully Registered..! </div>';
+                header("location:login.php");
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                echo '<div class="alert alert-danger">You are Already Registered.. Please Use Another Email!</div>';
             }
-
-            // Close statement
-            mysqli_stmt_close($stmt);
+        } else {
+            echo '<div class="alert alert-danger">Password Mismatch..!</div>';
         }
     }
-
-    // Validate password
-    if (empty(trim($_POST["password"]))) {
-        $password_err = "Please enter a password.";
-    } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have atleast 6 characters.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-
-    // Validate confirm password
-    if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm password.";
-    } else {
-        $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($password_err) && ($password != $confirm_password)) {
-            $confirm_password_err = "Password did not match.";
-        }
-    }
-
-    // Check input errors before inserting in database
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
-
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password,user_role) VALUES (?, ?, 'customer')"; //admin-a/spplyer-s/customer-c
-
-        if ($stmt = mysqli_prepare($con, $sql)) {
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($stmt)) {
-                // Redirect to login page
-                header("location: login.php");
-            } else {
-                echo "Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            mysqli_stmt_close($stmt);
-        }
-    }
-
-    // Close connection
-    mysqli_close($con);
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>registration</title>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"> -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
@@ -285,29 +234,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-lg-12 login-title">
                     Sign Up
                 </div>
-
                 <div class="col-lg-12 login-form">
                     <div class="col-lg-12 login-form">
-                        <form action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method='post'>
-
-                            <div class="form-group" <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                                <label class="form-control-label">EMail</label>
-                                <input type="email" class="form-control" name="username" class="form-control"
-                                    value="<?php echo $username; ?>">
-                                <span class="help-block"><?php echo $username_err; ?></span>
+                        <form action='#' method='post'>
+                            <div class="form-group">
+                                <label class="form-control-label">UserName</label>
+                                <input type="text" class="form-control" name="username" placeholder="Enter UserName"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="Enter Email"
+                                    class="form-control">
                             </div>
 
-                            <div class="form-group" <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>>
+                            <div class="form-group">
                                 <label class="form-control-label">Password</label>
-                                <input type="password" name="password" class="form-control" i>
-                                <span class="help-block"><?php echo $password_err; ?></span>
+                                <input type="password" name="password" class="form-control"
+                                    placeholder="Enter Valid Password">
                             </div>
 
-                            <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group">
                                 <label class="form-control-label">Confirm Password</label>
                                 <input type="password" name="confirm_password" class="form-control"
-                                    value="<?php echo $confirm_password; ?>">
-                                <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                    placeholder="Enter Password Again">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label">Nearest City</label>
+
+                                <select id="city" name="city">
+                                    <?php
+                                    $query = "SELECT * FROM tbl_city";
+                                    $result = mysqli_query($con, $query);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                    <option value="<?php echo $row['city_name'] ?>">
+                                        <?php echo $row["city_name"]; ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
                             </div>
 
                             <div class="col-lg-12 loginbttm">
@@ -315,10 +282,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <!-- Error Message -->
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Submit">
+                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
                                     <input type="reset" class="btn btn-default" value="Reset">
                                 </div>
                             </div>
+                            <br>
 
                             <p class="redirect-page">Already have an account? <a href="login.php">Login here</a>.</p>
                             </p>
@@ -328,7 +296,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-lg-3 col-md-2"></div>
             </div>
         </div>
-
+        <br>
+        <br>
 </body>
 
 </html>

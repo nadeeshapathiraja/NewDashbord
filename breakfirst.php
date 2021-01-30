@@ -1,12 +1,8 @@
-<!-- Check user is loged in system -->
 <?php
-// Initialize the session
-session_start();
-
-// Check if the user is logged in, if not then redirect him to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
-}
+// Include config file
+require_once "config.php";
+//include auth_session.php file on all user panel pages
+include("auth_session.php");
 ?>
 
 <?php
@@ -15,45 +11,45 @@ require_once "config.php";
 if (isset($_POST["add_to_cart"])) {
     if (isset($_SESSION["shopping_cart"])) {
         $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-        if (!in_array($_GET["id"], $item_array_id)) {
-            $count = count($_SESSION["shopping_cart"]);
-            if ($_POST["cupsize"] == 300) {
-                $item_array = array(
-                    'item_id'            =>    $_GET["id"],
-                    'item_name'            =>    $_POST["hidden_name"],
-                    'cupsize'        =>    $_POST["cupsize"],
-                    'item_quantity'        =>    $_POST["quantity"],
-                    'item_price' => 100
-                );
-            } elseif ($_POST["cupsize"] == 400) {
-                $item_array = array(
-                    'item_id'            =>    $_GET["id"],
-                    'item_name'            =>    $_POST["hidden_name"],
-                    'cupsize'        =>    $_POST["cupsize"],
-                    'item_quantity'        =>    $_POST["quantity"],
-                    'item_price' => 120
-                );
-            }
-
-
-            $_SESSION["shopping_cart"][$count] = $item_array;
-        } else {
-            echo '<script>alert("Item Already Added")</script>';
-        }
-    } else {
-        if ($_POST["cupsize"] == 300) {
+        // if (!in_array($_GET["id"], $item_array_id)) {
+        $count = count($_SESSION["shopping_cart"]);
+        if ($_POST["size"] == 'regular') {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
-                'cupsize'        =>    $_POST["cupsize"],
+                'size'        =>    $_POST["size"],
+                'item_quantity'        =>    $_POST["quantity"],
+                'item_price' => 100
+            );
+        } elseif ($_POST["size"] == 1) {
+            $item_array = array(
+                'item_id'            =>    $_GET["id"],
+                'item_name'            =>    $_POST["hidden_name"],
+                'size'        =>    $_POST["size"],
+                'item_quantity'        =>    $_POST["quantity"],
+                'item_price' => 120
+            );
+        }
+
+
+        $_SESSION["shopping_cart"][$count] = $item_array;
+        // } else {
+        //     echo '<script>alert("Item Already Added")</script>';
+        // }
+    } else {
+        if ($_POST["size"] == 'regular') {
+            $item_array = array(
+                'item_id'            =>    $_GET["id"],
+                'item_name'            =>    $_POST["hidden_name"],
+                'size'        =>    $_POST["size"],
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 100 //Change value 
             );
-        } elseif ($_POST["cupsize"] == 400) {
+        } elseif ($_POST["size"] == 1) {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
-                'cupsize'        =>    $_POST["cupsize"],
+                'size'        =>    $_POST["size"],
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 120 //cahange value
             );
@@ -109,7 +105,7 @@ if (isset($_GET["action"])) {
                 <tr>
                     <th width="40%">Item Name</th>
                     <th width="10%">Quantity</th>
-                    <th width="20%">Cup Size</th>
+                    <th width="20%">Size</th>
                     <th width="15%">Total</th>
                     <th width="5%">Action</th>
                 </tr>
@@ -121,7 +117,7 @@ if (isset($_GET["action"])) {
                 <tr>
                     <td><?php echo $values["item_name"]; ?></td>
                     <td><?php echo $values["item_quantity"]; ?></td>
-                    <td><?php echo $values["cupsize"]; ?>ml</td>
+                    <td><?php echo $values["size"]; ?></td>
                     <td>Rs <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
                     <td><a href="breakfirst.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span
                                 class="text-danger">Remove</span></a></td>
@@ -161,7 +157,9 @@ if (isset($_GET["action"])) {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {
                     $secondtype =  $row["type"];
-                    if ($secondtype == 'breakfirst') {
+                    $suppler_city = $row['city'];
+                    if ($suppler_city == $city  && $user_role == "customer") { //Check User city equal to product city
+                        if ($secondtype == 'breakfirst') {
             ?>
             <div class="col-md-4">
                 <form method="post" action="breakfirst.php?action=add&id=<?php echo $row["id"]; ?>">
@@ -174,13 +172,12 @@ if (isset($_GET["action"])) {
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="cupsize" id="cupsize" value="300"
-                                checked>
-                            <label class="form-check-label" for="inlineCheckbox2">300ml</label>
+                            <input class="form-check-input" type="radio" name="size" id="size" value="Regular" checked>
+                            <label class="form-check-label" for="inlineCheckbox2">Regular</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="cupsize" id="cupsize" value="400">
-                            <label class="form-check-label" for="inlineCheckbox2">400ml</label>
+                            <input class="form-check-input" type="radio" name="size" id="size" value="Combopack">
+                            <label class="form-check-label" for="inlineCheckbox2">Combo Pack</label>
                         </div>
 
 
@@ -195,6 +192,43 @@ if (isset($_GET["action"])) {
                 </form>
             </div>
             <?php
+                        }
+                    }
+                    if ($user_role == "admin") { //Check User is admin
+                        if ($secondtype == 'breakfirst') {
+                        ?>
+            <div class="col-md-4">
+                <form method="post" action="breakfirst.php?action=add&id=<?php echo $row["id"]; ?>">
+                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
+                        align="center">
+
+                        <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
+                            style="width: 150px; height: 180px;" /><br />
+
+                        <h4 class="text-info"><?php echo $row["name"]; ?></h4>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="size" id="size" value="Regular" checked>
+                            <label class="form-check-label" for="inlineCheckbox2">Regular</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="size" id="size" value="Combopack">
+                            <label class="form-check-label" for="inlineCheckbox2">Combo Pack</label>
+                        </div>
+
+
+                        <input type="text" name="quantity" value="1" class="form-control" />
+
+                        <input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
+
+                        <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success"
+                            value="Add to Cart" />
+
+                    </div>
+                </form>
+            </div>
+            <?php
+                        }
                     }
                 }
             }

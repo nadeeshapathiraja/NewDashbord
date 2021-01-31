@@ -1,8 +1,8 @@
 <?php
-// Include config file
-require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+// Include config file
+require_once "config.php";
 ?>
 <!-- load updated data -->
 <?php

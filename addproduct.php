@@ -99,7 +99,7 @@ if (isset($_REQUEST['save'])) {
                         <div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" name="type" id="type"
-                                    value="breakfirst">Breakfirst
+                                    value="breakfast">Breakfast
                             </label>
                         </div>
 

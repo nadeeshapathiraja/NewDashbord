@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 error_reporting(0);
 // Include config file
 require_once "config.php";
@@ -28,7 +28,6 @@ if (isset($_REQUEST['submit'])) {
 
                 if ($row = mysqli_fetch_array($result)) {
 
-                    session_start();
                     $_SESSION["email"] = $email;
 
                     header("Location:index.php");

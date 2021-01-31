@@ -1,8 +1,8 @@
 <?php
-// Include config file
-require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+// Include config file
+require_once "config.php";
 
 
 ?>
@@ -102,11 +102,11 @@ include("auth_session.php");
                 </a>
             </div>
             <div class="col-md-6">
-                <a href="breakfirst.php">
+                <a href="breakfast.php">
                     <div class="card" style="width:400px; height: 450px;">
                         <img src="images/logo2.jpg" alt="#" />
                         <div class="card-body">
-                            <h4 class="card-title">Breakfirst</h4>
+                            <h4 class="card-title">Breakfast</h4>
                         </div>
                     </div>
                 </a>

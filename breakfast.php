@@ -1,8 +1,10 @@
 <?php
-// Include config file
-require_once "config.php";
+
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+// Include config file
+require_once "config.php";
+
 ?>
 <?php
 require_once "config.php";
@@ -67,7 +69,7 @@ if (isset($_GET["action"])) {
             if ($values["item_id"] == $_GET["id"]) {
                 unset($_SESSION["shopping_cart"][$keys]);
                 echo '<script>alert("Item Removed")</script>';
-                echo '<script>window.location="breakfirst.php"</script>';
+                echo '<script>window.location="breakfast.php"</script>';
             }
         }
     }
@@ -125,11 +127,15 @@ if (isset($_GET["action"])) {
                                     echo "Regular Pack";
                                 } else if ($values["size"] == 1) {
                                     echo "Combo Pack";
+                                } else if ($values["size"] == 300) {
+                                    echo "300ml";
+                                } else if ($values["size"] == 400) {
+                                    echo "400ml";
                                 }
                                 ?>
                     </td>
                     <td>Rs <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
-                    <td><a href="breakfirst.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span
+                    <td><a href="breakfast.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span
                                 class="text-danger">Remove</span></a></td>
                 </tr>
                 <?php
@@ -150,15 +156,26 @@ if (isset($_GET["action"])) {
         <div class="row">
             <div class="col-md-9"></div>
             <div class="col-md-3">
-                <input type="submit" class="btn btn-outline-secondary" onclick="location.href = 'placeOrder.php';"
-                    value="Place Oreder">
+                <script>
+                function myFunction() {
+                    var msg = confirm("Do you Want to buy Kolakanda?");
+                    if (msg == true) {
+                        window.location.replace("kolakanda.php");
+                    } else {
+                        window.location.replace("placeOrder.php");
+                    }
+                }
+                </script>
+                <!-- <input type="submit" class="btn btn-outline-secondary" onclick="location.href = 'placeOrder.php';"
+                    value="Place Oreder"> -->
+                <input type="submit" class="btn btn-outline-secondary" onclick="myFunction() " value="Place Oreder">
             </div>
 
         </div>
 
 
         <br />
-        <h3 align="center">Breakfirst List</h3><br />
+        <h3 align="center">Breakfast List</h3><br />
         <br /><br />
 
 
@@ -172,15 +189,15 @@ if (isset($_GET["action"])) {
                     $secondtype =  $row["type"];
                     $suppler_city = $row['city'];
                     if ($suppler_city == $city  && $user_role == "customer") { //Check User city equal to product city
-                        if ($row["type"] == 'breakfirst') {
+                        if ($row["type"] == 'breakfast') {
             ?>
             <div class="col-md-4">
-                <form method="post" action="breakfirst.php?action=add&id=<?php echo $row["id"]; ?>">
+                <form method="post" action="breakfast.php?action=add&id=<?php echo $row["id"]; ?>">
                     <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
-                            style="width: 150px; height: 180px;" /><br />
+                            style="width: 250px; height: 200px;" /><br />
 
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
@@ -210,15 +227,15 @@ if (isset($_GET["action"])) {
                         }
                     }
                     if ($user_role == "admin") {
-                        if ($row["type"] == 'breakfirst') {
+                        if ($row["type"] == 'breakfast') {
                         ?>
             <div class="col-md-4">
-                <form method="post" action="breakfirst.php?action=add&id=<?php echo $row["id"]; ?>">
+                <form method="post" action="breakfast.php?action=add&id=<?php echo $row["id"]; ?>">
                     <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
-                            style="width: 150px; height: 180px;" /><br />
+                            style="width: 250px; height: 200px;" /><br />
 
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 

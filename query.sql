@@ -16,7 +16,15 @@ CREATE TABLE tbl_product (
     description varchar(255),
     image varchar(255),
     type varchar(255),
-    city varchar(255)
+    city varchar(255),
+    activity varchar(255)
+);
+
+CREATE TABLE tbl_city (
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    city_name varchar(255),
+    agent varchar(255),
+    phone varchar(255)
 );
 
 CREATE TABLE tbl_product2 (
@@ -36,7 +44,9 @@ CREATE TABLE orders (
     address varchar(255),
     city varchar(255),
     place varchar(255),
-    comment varchar(255)
+    comment varchar(255),
+    final_cart_item text,
+    ordered_at datetime
 );
 
 CREATE TABLE tbl_city (

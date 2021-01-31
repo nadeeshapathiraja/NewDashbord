@@ -1,5 +1,4 @@
 <?php
-
 // Include config file
 require_once "config.php";
 // When form submitted, insert values into the database.
@@ -12,8 +11,6 @@ if (isset($_REQUEST['username'])) {
     $email = stripslashes($_REQUEST['email']);
     $password = stripslashes($_REQUEST['password']);
     $confirm_password = stripslashes($_REQUEST['confirm_password']);
-    $city = $_REQUEST['city'];
-    echo $city;
 
     $sql = "SELECT * FROM users WHERE  email = $checkemail";
     $result = mysqli_query($con, $sql);

@@ -1,9 +1,8 @@
 <?php
-// Include config file
-require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
-$email = $_SESSION['email'];
+// Include config file
+require_once "config.php";
 ?>
 
 <!DOCTYPE html>

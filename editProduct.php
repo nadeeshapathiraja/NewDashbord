@@ -1,8 +1,8 @@
 <?php
-// Include config file
-require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+// Include config file
+require_once "config.php";
 ?>
 <!-- load updated data -->
 <?php
@@ -70,10 +70,10 @@ $result = mysqli_query($con, $query);
                         <div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" name="type" id="type"
-                                    value="breakfirst">Breakfirst
+                                    value="breakfast">Breakfast
                             </label>
                         </div>
-                        <?php } else if ($row['type'] == 'breakfirst') {
+                        <?php } else if ($row['type'] == 'breakfast') {
                             ?>
                         <div class="form-check-inline">
                             <label class="form-check-label">
@@ -83,8 +83,8 @@ $result = mysqli_query($con, $query);
                         </div>
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="type" id="type" value="breakfirst"
-                                    checked>Breakfirst
+                                <input type="radio" class="form-check-input" name="type" id="type" value="breakfast"
+                                    checked>Breakfast
                             </label>
                         </div>
                         <?php } ?>

@@ -1,8 +1,8 @@
 <?php
-// Include config file
-require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+// Include config file
+require_once "config.php";
 ?>
 <?php
 require_once "config.php";
@@ -18,7 +18,7 @@ if (isset($_POST["add_to_cart"])) {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
-                'cupsize'        =>    $_POST["cupsize"],
+                'size'        =>    $_POST["cupsize"],
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 100
             );
@@ -26,13 +26,13 @@ if (isset($_POST["add_to_cart"])) {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
-                'cupsize'        =>    $_POST["cupsize"],
+                'size'        =>    $_POST["cupsize"],
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 120
             );
         }
 
-
+        echo $_POST["cupsize"];
         $_SESSION["shopping_cart"][$count] = $item_array;
         // } else {
         //     echo '<script>alert("Item Already Added")</script>';
@@ -43,7 +43,7 @@ if (isset($_POST["add_to_cart"])) {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
-                'cupsize'        =>    $_POST["cupsize"],
+                'size'        =>    $_POST["cupsize"],
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 100 //Change value 
             );
@@ -51,7 +51,7 @@ if (isset($_POST["add_to_cart"])) {
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
-                'cupsize'        =>    $_POST["cupsize"],
+                'size'        =>    $_POST["cupsize"],
                 'item_quantity'        =>    $_POST["quantity"],
                 'item_price' => 120 //cahange value
             );
@@ -119,7 +119,17 @@ if (isset($_GET["action"])) {
                 <tr>
                     <td><?php echo $values["item_name"]; ?></td>
                     <td><?php echo $values["item_quantity"]; ?></td>
-                    <td><?php echo $values["cupsize"]; ?>ml</td>
+                    <td><?php
+                                if ($values["size"] == 0) {
+                                    echo "Regular Pack";
+                                } else if ($values["size"] == 1) {
+                                    echo "Combo Pack";
+                                } else if ($values["size"] == 300) {
+                                    echo "300ml";
+                                } else if ($values["size"] == 400) {
+                                    echo "400ml";
+                                }
+                                ?></td>
                     <td>Rs <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
                     <td><a href="kolakanda.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span
                                 class="text-danger">Remove</span></a></td>
@@ -142,8 +152,19 @@ if (isset($_GET["action"])) {
         <div class="row">
             <div class="col-md-9"></div>
             <div class="col-md-3">
-                <input type="submit" class="btn btn-outline-secondary" onclick="location.href = 'placeOrder.php';"
-                    value="Place Oreder">
+                <script>
+                function myFunction() {
+                    var msg = confirm("Do you Want to buy Breakfast?");
+                    if (msg == true) {
+                        window.location.replace("breakfast.php");
+                    } else {
+                        window.location.replace("placeOrder.php");
+                    }
+                }
+                </script>
+                <!-- <input type="submit" class="btn btn-outline-secondary" onclick="location.href = 'placeOrder.php';"
+                    value="Place Oreder"> -->
+                <input type="submit" class="btn btn-outline-secondary" onclick="myFunction() " value="Place Oreder">
             </div>
 
         </div>
@@ -172,7 +193,7 @@ if (isset($_GET["action"])) {
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
-                            style="width: 150px; height: 180px;" /><br />
+                            style="width: 250px; height: 200px;" /><br />
 
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
@@ -211,7 +232,7 @@ if (isset($_GET["action"])) {
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
-                            style="width: 150px; height: 180px;" /><br />
+                            style="width: 250px; height: 200px;" /><br />
 
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
 

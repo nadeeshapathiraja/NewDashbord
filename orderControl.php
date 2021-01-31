@@ -1,8 +1,8 @@
 <?php
-// Include config file
-require_once "config.php";
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+// Include config file
+require_once "config.php";
 ?>
 
 <?php
@@ -33,7 +33,7 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
             <div class="col-md-8"></div>
             <div class="col-md-4">
                 <a class="btn btn-info" href="kolakanda.php?>">Kolakand</a>
-                <a class="btn btn-info" href="breakfirst.php?>">Breckfirst</a>
+                <a class="btn btn-info" href="breakfast.php?>">Breckfast</a>
             </div>
         </div>
         <br>
@@ -100,7 +100,17 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
                                                     foreach ($data as $item) {
                                                         // echo $item["item_name"];
                                                         $array = json_decode(json_encode($item), true);
-                                                        echo "Name: " . $array['item_name'] . "  " . "Size: " . $array['cupsize'] . "<br>";
+                                                        $size = '';
+                                                        if ($array["size"] == 0) {
+                                                            $size =  "Regular Pack";
+                                                        } else if ($array["size"] == 1) {
+                                                            $size =  "Combo Pack";
+                                                        } else if ($array["size"] == 300) {
+                                                            $size =  "300ml";
+                                                        } else if ($array["size"] == 400) {
+                                                            $size =  "400ml";
+                                                        }
+                                                        echo "Name: " . $array['item_name'] . "  " . "Size: " . $size  . "<br>";
                                                         echo "Quantity: " . $array['item_quantity'] . "<br>";
                                                         //var_dump($array);
                                                     }

@@ -4,11 +4,7 @@ session_start();
 include("auth_session.php");
 // Include config file
 require_once "config.php";
-?>
 
-<?php
-require_once("config.php");
-$results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,22 +31,54 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
                 <a class="btn btn-info" href="kolakanda.php?>">Kolakand</a>
                 <a class="btn btn-info" href="breakfast.php?>">Breckfast</a>
             </div>
-            <div class="col-md-4"></div>
-            <div class="col-md-2">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-success" type="submit">Go</button>
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+
+                <!-- Searh Form -->
+                <form action="#" method="post">
+                    <div class="row">
+                        <!-- Take Filter Date -->
+                        <div class="col-md-5">
+                            <div class="form-group row">
+                                <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="date" value="yyyy-mm-dd"
+                                        max="<?php echo date('Y-m-d'); ?>" name="filterDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <label for="example-date-input" class="col-3 col-form-label">Branch</label>
+                                <div class="col-9">
+                                    <!-- take filter City -->
+                                    <div class="form-group">
+                                        <select class="form-control" id="filterCity" name="filterCity">
+                                            <?php
+                                            $queryCity = "SELECT * FROM tbl_city ORDER BY city_name ASC";
+                                            $resultCity = mysqli_query($con, $queryCity);
+                                            if (mysqli_num_rows($resultCity) > 0) {
+                                                while ($rowCity = mysqli_fetch_array($resultCity)) {
+                                            ?>
+                                            <option value="<?php echo $rowCity['city_name']; ?>">
+                                                <?php echo $rowCity['city_name']; ?>
+                                            </option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group-append">
+                                <input type="submit" class="btn btn-primary" value="Search" name="search" />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-success" type="submit">Go</button>
-                    </div>
-                </div>
+                </form>
 
             </div>
         </div>
@@ -89,8 +117,15 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i = 1;
-                        while ($row = mysqli_fetch_array($results)) { ?>
+                        <?php if (isset($_POST['search'])) {
+                            $filterDate = $_POST['filterDate'];
+                            $filterCity = $_POST['filterCity'];
+
+                            //$results = mysqli_query($con, "SELECT * FROM orders WHERE city=$filterCity AND ordered_at=$filterDate ORDER BY id DESC");
+                            $results = mysqli_query($con, "SELECT * FROM orders WHERE city LIKE '%{$filterCity}%' AND ordered_at LIKE '%{$filterDate}%' ORDER BY id DESC");
+
+                            $i = 1;
+                            while ($rows = mysqli_fetch_array($results)) { ?>
                         <tr>
                             <form action="#">
                                 <td>
@@ -100,52 +135,54 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
                                 </td>
                                 <td>
                                     <?php
-                                        echo $i;
-                                        $i++;
-                                        ?>
+                                            echo $i;
+                                            $i++;
+                                            ?>
                                 </td>
-                                <td><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
-                                <td><?php echo $row['phone']; ?></td>
-                                <td><?php echo $row['address']; ?></td>
-                                <td><?php echo $row['city']; ?></td>
-                                <td><?php echo $row['place']; ?></td>
+                                <td><?php echo $rows['first_name'] . ' ' . $rows['last_name']; ?></td>
+                                <td><?php echo $rows['phone']; ?></td>
+                                <td><?php echo $rows['address']; ?></td>
+                                <td><?php echo $rows['city']; ?></td>
+                                <td><?php echo $rows['place']; ?></td>
                                 <td style="width:250px"><?php
-                                                            $data = JSON_DECODE($row['final_cart_item'], true);
-                                                            if (is_array($data) || is_object($data)) {
-                                                                foreach ($data as $item) {
-                                                                    // echo $item["item_name"];
-                                                                    $array = json_decode(json_encode($item), true);
-                                                                    $size = '';
-                                                                    if ($array["size"] == 0) {
-                                                                        $size =  "Regular Pack";
-                                                                    } else if ($array["size"] == 1) {
-                                                                        $size =  "Combo Pack";
-                                                                    } else if ($array["size"] == 300) {
-                                                                        $size =  "300ml";
-                                                                    } else if ($array["size"] == 400) {
-                                                                        $size =  "400ml";
+                                                                $data = JSON_DECODE($rows['final_cart_item'], true);
+                                                                if (is_array($data) || is_object($data)) {
+                                                                    foreach ($data as $item) {
+                                                                        // echo $item["item_name"];
+                                                                        $array = json_decode(json_encode($item), true);
+                                                                        $size = '';
+                                                                        if ($array["size"] == 0) {
+                                                                            $size =  "Regular Pack";
+                                                                        } else if ($array["size"] == 1) {
+                                                                            $size =  "Combo Pack";
+                                                                        } else if ($array["size"] == 300) {
+                                                                            $size =  "300ml";
+                                                                        } else if ($array["size"] == 400) {
+                                                                            $size =  "400ml";
+                                                                        }
+                                                                        echo "Name: " . $array['item_name'] . "<br>";
+                                                                        echo  "Size: " . $size  . "<br>";
+                                                                        echo "Quantity: " . $array['item_quantity'] . "<br>";
+                                                                        //var_dump($array);
                                                                     }
-                                                                    echo "Name: " . $array['item_name'] . "<br>";
-                                                                    echo  "Size: " . $size  . "<br>";
-                                                                    echo "Quantity: " . $array['item_quantity'] . "<br>";
-                                                                    //var_dump($array);
                                                                 }
-                                                            }
-                                                            ?>
+                                                                ?>
 
                                 </td>
-                                <td><?php echo $row['ordered_at']; ?></td>
+                                <td><?php echo $rows['ordered_at']; ?></td>
                                 <td>
                                     <a class="btn btn-warning"
-                                        href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a><br>
+                                        href="editProduct.php?id=<?php echo $rows["id"]; ?>">Edit</a><br>
                                     <a class="btn btn-danger"
-                                        href="deleteProduct.php?id=<?php echo $row["id"]; ?>">Delete</a>
+                                        href="deleteProduct.php?id=<?php echo $rows["id"]; ?>">Delete</a>
                                 </td>
                             </form>
 
                         </tr>
                         <?php
-                            $id_delete =  $row['id'];
+
+                                $id_delete =  $rows['id'];
+                            }
                         } ?>
                     </tbody>
                 </table>
@@ -161,7 +198,6 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
 
 <!-- Delete -->
 <?php
-require_once("config.php");
 
 if (isset($_REQUEST["delete"])) {
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
 // Include config file
@@ -25,15 +26,32 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
     <?php include 'menu.php'; ?>
     <br><br><br><br><br><br><br>
 
-    <div class="container">
+    <div class="container-fluid">
         <h2>Admin Product Control</h2>
         <br>
+        <h2>Add Order</h2>
         <div class="row">
-            <h2>Add Order</h2>
-            <div class="col-md-8"></div>
             <div class="col-md-4">
                 <a class="btn btn-info" href="kolakanda.php?>">Kolakand</a>
                 <a class="btn btn-info" href="breakfast.php?>">Breckfast</a>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">Go</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">Go</button>
+                    </div>
+                </div>
+
             </div>
         </div>
         <br>
@@ -53,83 +71,87 @@ $results = mysqli_query($con, "SELECT * FROM orders ORDER BY id DESC");
             </label>
         </div>
         <br>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th> </th>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>Place</th>
-                    <th>Comment</th>
-                    <th>Cart Items</th>
-                    <th>Ordered Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $i = 1;
-                while ($row = mysqli_fetch_array($results)) { ?>
-                <tr>
-                    <form action="#">
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            </div>
-                        </td>
-                        <td>
-                            <?php
-                                echo $i;
-                                $i++;
-                                ?>
-                        </td>
-                        <td><?php echo $row['first_name']; ?></td>
-                        <td><?php echo $row['last_name']; ?></td>
-                        <td><?php echo $row['email']; ?></td>
-                        <td><?php echo $row['phone']; ?></td>
-                        <td><?php echo $row['address']; ?></td>
-                        <td><?php echo $row['city']; ?></td>
-                        <td><?php echo $row['place']; ?></td>
-                        <td><?php echo $row['comment']; ?></td>
-                        <td style="width:250px"><?php
-                                                    $data = JSON_DECODE($row['final_cart_item'], true);
-                                                    foreach ($data as $item) {
-                                                        // echo $item["item_name"];
-                                                        $array = json_decode(json_encode($item), true);
-                                                        $size = '';
-                                                        if ($array["size"] == 0) {
-                                                            $size =  "Regular Pack";
-                                                        } else if ($array["size"] == 1) {
-                                                            $size =  "Combo Pack";
-                                                        } else if ($array["size"] == 300) {
-                                                            $size =  "300ml";
-                                                        } else if ($array["size"] == 400) {
-                                                            $size =  "400ml";
-                                                        }
-                                                        echo "Name: " . $array['item_name'] . "  " . "Size: " . $size  . "<br>";
-                                                        echo "Quantity: " . $array['item_quantity'] . "<br>";
-                                                        //var_dump($array);
-                                                    }
-                                                    ?>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> </th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Branch Name</th>
+                            <th>Place</th>
+                            <th>Cart Items</th>
+                            <th>Ordered Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1;
+                        while ($row = mysqli_fetch_array($results)) { ?>
+                        <tr>
+                            <form action="#">
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    </div>
+                                </td>
+                                <td>
+                                    <?php
+                                        echo $i;
+                                        $i++;
+                                        ?>
+                                </td>
+                                <td><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
+                                <td><?php echo $row['phone']; ?></td>
+                                <td><?php echo $row['address']; ?></td>
+                                <td><?php echo $row['city']; ?></td>
+                                <td><?php echo $row['place']; ?></td>
+                                <td style="width:250px"><?php
+                                                            $data = JSON_DECODE($row['final_cart_item'], true);
+                                                            if (is_array($data) || is_object($data)) {
+                                                                foreach ($data as $item) {
+                                                                    // echo $item["item_name"];
+                                                                    $array = json_decode(json_encode($item), true);
+                                                                    $size = '';
+                                                                    if ($array["size"] == 0) {
+                                                                        $size =  "Regular Pack";
+                                                                    } else if ($array["size"] == 1) {
+                                                                        $size =  "Combo Pack";
+                                                                    } else if ($array["size"] == 300) {
+                                                                        $size =  "300ml";
+                                                                    } else if ($array["size"] == 400) {
+                                                                        $size =  "400ml";
+                                                                    }
+                                                                    echo "Name: " . $array['item_name'] . "<br>";
+                                                                    echo  "Size: " . $size  . "<br>";
+                                                                    echo "Quantity: " . $array['item_quantity'] . "<br>";
+                                                                    //var_dump($array);
+                                                                }
+                                                            }
+                                                            ?>
 
-                        </td>
-                        <td><?php echo $row['ordered_at']; ?></td>
-                        <td>
-                            <a class="btn btn-warning" href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a><br>
-                            <a class="btn btn-danger" href="deleteProduct.php?id=<?php echo $row["id"]; ?>">Delete</a>
-                        </td>
-                    </form>
+                                </td>
+                                <td><?php echo $row['ordered_at']; ?></td>
+                                <td>
+                                    <a class="btn btn-warning"
+                                        href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a><br>
+                                    <a class="btn btn-danger"
+                                        href="deleteProduct.php?id=<?php echo $row["id"]; ?>">Delete</a>
+                                </td>
+                            </form>
 
-                </tr>
-                <?php
-                    $id_delete =  $row['id'];
-                } ?>
-            </tbody>
-        </table>
+                        </tr>
+                        <?php
+                            $id_delete =  $row['id'];
+                        } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
     </div>
     <?php include 'footer.php'; ?>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
 // Include config file
@@ -115,7 +116,7 @@ $result = mysqli_query($con, $query);
                         <div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" name="activity" id="activity" value="0"
-                                    checked>Deactivate
+                                    checked>Inactivate
                             </label>
                         </div>
                         <?php } ?>
@@ -142,27 +143,16 @@ if (isset($_POST['update'])) {
         if (count($_POST) > 0) {
 
             $name = $_POST['name'];
-            $file_tmp = $_FILES['image']['tmp_name'];
-            $file_name = $_FILES['image']['name'];
             $description = $_POST['description'];
             $type = $_POST['type'];
-            $activity = 1;
+            $activity = $_POST['activity'];
 
             // include config file
             require_once("config.php");
-            $target = "images/" . basename($file_name);
 
-            $sql2 = "UPDATE tbl_product SET name='$name' , image='$file_name' , description='$description' , type='$type' , activity='$activity' WHERE id=$id_edit";
+            $sql2 = "UPDATE tbl_product SET name='$name', description='$description' , type='$type' , activity='$activity' WHERE id=$id_edit";
             $result2 = mysqli_query($con, $sql2);
 
-            if ($result2 == 1) {
-                //uplord file to server
-                //make file uplord path
-                $path = "images/" . $_FILES["image"]["name"];
-                //uplord
-                move_uploaded_file($_FILES["image"]["tmp_name"], $path);
-                //header('location: fullcontrol.php');
-            }
             if ($con->query($sql) === TRUE) {
                 echo "Record updated successfully: $result<br />";
             } else {

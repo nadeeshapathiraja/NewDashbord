@@ -1,8 +1,16 @@
 <?php
 session_start();
 error_reporting(0);
+$_SESSION['register_msg'] = '';
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 // Include config file
 require_once "config.php";
+
+if ($_SESSION['register_msg']) {
+    echo '<div class="alert alert-success">Successfully Registered..! Thank You.</div>';
+    unset($_SESSION['register_msg']);
+}
 
 // When form submitted, check and create user session.
 // Check if username is empty
@@ -20,7 +28,6 @@ if (isset($_REQUEST['submit'])) {
             if (isset($_REQUEST['email'])) {
 
                 $hashpassword = md5($password);
-
                 // Check user is exist in the database
                 $query    = "SELECT * FROM users WHERE email='$email'
                              AND password='$hashpassword'";
@@ -29,8 +36,10 @@ if (isset($_REQUEST['submit'])) {
                 if ($row = mysqli_fetch_array($result)) {
 
                     $_SESSION["email"] = $email;
-
-                    header("Location:index.php");
+                    $_SESSION['currentplace'] = $_POST['currentplace'];
+                    // header("Location:index.php");
+                    echo "<script>window.location.href='index.php';</script>";
+                    exit;
                 } else {
                     echo '<div class="alert alert-danger">Incorrect Username/password...!</div>';
                 }
@@ -245,6 +254,25 @@ if (isset($_REQUEST['submit'])) {
                                 <label class="form-control-label">Password</label>
                                 <input type="password" name="password" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label for="sel1">Please Select Your Current Place:</label>
+                                <select class="form-control" id="currentplace" name="currentplace">
+                                    <?php
+                                    $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
+                                    $resultArea = mysqli_query($con, $queryArea);
+                                    if (mysqli_num_rows($resultArea) > 0) {
+                                        while ($rowArea = mysqli_fetch_array($resultArea)) {
+                                    ?>
+                                    <option value="<?php echo $rowArea['area_name']; ?>">
+                                        <?php echo $rowArea['area_name']; ?>
+                                    </option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
 
                             <div class="col-lg-12 loginbttm">
                                 <div class="col-lg-6 login-btm login-text">

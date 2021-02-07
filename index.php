@@ -1,10 +1,12 @@
 <?php
+
+session_start();
+error_reporting(0);
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
 // Include config file
 require_once "config.php";
-
-
+// $_SESSION["order_message"];
 ?>
 
 <!DOCTYPE html>
@@ -28,10 +30,18 @@ require_once "config.php";
 </head>
 
 <body>
-    <?php include 'menu.php'; ?>
+    <?php
+
+    include 'menu.php';
+    ?>
     <br><br><br><br><br><br><br>
     <div class="container" style="margin-top: 50px;">
         <?php
+        if (isset($_SESSION["order_message"])) {
+            echo '<div class="alert alert-success">' . $_SESSION['order_message'] . '</div>';
+            // unset($_SESSION['order_message']);
+        }
+
         if ($user_role == "admin") {
         ?>
 
@@ -85,7 +95,8 @@ require_once "config.php";
 
         <?php
 
-        } else if ($user_role == "customer") {
+        }
+        if ($user_role == "customer") {
 
         ?>
 
@@ -93,7 +104,7 @@ require_once "config.php";
             <div class="col-md-6">
                 <a href="kolakanda.php">
                     <div class="card" style="width:400px; height: 450px;">
-                        <img src="images/logo.png" alt="#" />
+                        <img src="images/kola.jpeg" style="width:400px; height:400px;" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Kola Kanda</h4>
 
@@ -104,7 +115,7 @@ require_once "config.php";
             <div class="col-md-6">
                 <a href="breakfast.php">
                     <div class="card" style="width:400px; height: 450px;">
-                        <img src="images/logo2.jpg" alt="#" />
+                        <img src="images/bk.jpg" style="width:400px; height:400px" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Breakfast</h4>
                         </div>

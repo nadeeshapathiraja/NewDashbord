@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Include config file
 require_once "config.php";
 // When form submitted, insert values into the database.
@@ -11,6 +12,7 @@ if (isset($_REQUEST['username'])) {
     $email = stripslashes($_REQUEST['email']);
     $password = stripslashes($_REQUEST['password']);
     $confirm_password = stripslashes($_REQUEST['confirm_password']);
+    $city = stripslashes($_REQUEST['city']);
 
     $sql = "SELECT * FROM users WHERE  email = $checkemail";
     $result = mysqli_query($con, $sql);
@@ -18,17 +20,19 @@ if (isset($_REQUEST['username'])) {
 
     if ($result) {
         echo '<div class="alert alert-danger">You are Already Registered..! </div>';
-        unset($_SESSION['email']);
+        //unset($_SESSION['email']);
     } else {
         $hashpassword = md5($password);
 
         if ($password == $confirm_password) {
             $query    = "INSERT into `users` (username, password, email, user_role, city)
                 VALUES ('$username', '$hashpassword', '$email', 'customer', '$city')";
+
             $result2   = mysqli_query($con, $query);
             if ($result2) {
-                echo '<div class="alert alert-success">Successfully Registered..! </div>';
-                header("location:login.php");
+                $_SESSION['register_msg'] = "Successfully Registered..! Thank You.";
+                // header("location:login.php");
+                echo "<script>window.location.href='login.php';</script>";
             } else {
                 echo '<div class="alert alert-danger">You are Already Registered.. Please Use Another Email!</div>';
             }
@@ -262,13 +266,13 @@ if (isset($_REQUEST['username'])) {
 
                                 <select id="city" name="city">
                                     <?php
-                                    $query = "SELECT * FROM tbl_city";
+                                    $query = "SELECT * FROM tbl_all_area ORDER BY area_name";
                                     $result = mysqli_query($con, $query);
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                    <option value="<?php echo $row['city_name'] ?>">
-                                        <?php echo $row["city_name"]; ?></option>
+                                    <option value="<?php echo $row['area_name'] ?>">
+                                        <?php echo $row["area_name"]; ?></option>
                                     <?php }
                                     } ?>
                                 </select>

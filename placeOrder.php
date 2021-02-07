@@ -1,4 +1,6 @@
 <?php
+session_start();
+error_reporting(0);
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
 // Include config file
@@ -67,15 +69,49 @@ require_once "config.php";
                         <label for="usr">Address:</label>
                         <input type="text" class="form-control" id="address" name="address">
                     </div>
+
+                    <?php
+                    if ($user_role == 'customer') {
+                    ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="usr">Agent:</label> -->
+                                <input type="hidden" class="form-control" id="city" name="city"
+                                    value="<?php echo $agent; ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="usr">Place:</label> -->
+                                <input type="hidden" class="form-control" id="place" name="place"
+                                    value="<?php echo $city; ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    }
+                    if ($user_role == "admin") {
+
+                    ?>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="sel1">Main City:</label>
                                 <select class="form-control" id="city" name="city">
-                                    <option value="Colombo">Colombo</option>
-                                    <option value="Rathmalana">Rathmalana</option>
-                                    <optionn value="Modara">Modara</option>
-                                        <option value="Moratuwa">Moratuwa</option>
+                                    <?php
+                                        $queryCity = "SELECT * FROM tbl_city ORDER BY city_name ASC";
+                                        $resultCity = mysqli_query($con, $queryCity);
+                                        if (mysqli_num_rows($resultCity) > 0) {
+                                            while ($rowCity = mysqli_fetch_array($resultCity)) {
+                                        ?>
+                                    <option value="<?php echo $rowCity['city_name']; ?>">
+                                        <?php echo $rowCity['city_name']; ?>
+                                    </option>
+                                    <?php
+                                            }
+                                        }
+                                        ?>
                                 </select>
                             </div>
                         </div>
@@ -83,14 +119,29 @@ require_once "config.php";
                             <div class="form-group">
                                 <label for="sel1">Nearest Place:</label>
                                 <select class="form-control" id="place" name="place">
-                                    <option value="test1">test1</option>
-                                    <option value="test 2">test 2</option>
-                                    <option value="test 3">test 3</option>
-                                    <option value="test 4">test 4</option>
+                                    <?php
+                                        $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
+                                        $resultArea = mysqli_query($con, $queryArea);
+                                        if (mysqli_num_rows($resultArea) > 0) {
+                                            while ($rowArea = mysqli_fetch_array($resultArea)) {
+                                        ?>
+                                    <option value="<?php echo $rowArea['area_name']; ?>">
+                                        <?php echo $rowArea['area_name']; ?>
+                                    </option>
+                                    <?php
+                                            }
+                                        }
+                                        ?>
                                 </select>
                             </div>
                         </div>
                     </div>
+                    <?php
+
+                    }
+                    ?>
+
+
                     <div class="form-group">
                         <label for="comment">Comment:</label>
                         <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
@@ -138,9 +189,9 @@ if (isset($_REQUEST['order'])) {
     $result = mysqli_query($con, $sql);
 
     unset($_SESSION["shopping_cart"]);
-
+    $_SESSION["order_message"] = "Your Last Order Send Success..! You can Order again Now. Thank You.";
 ?>
-<script type=" text/javascript">
+<script type="text/javascript">
 window.location = "index.php";
 $(document).ready(function() {
     $("form").submit(function() {

@@ -1,8 +1,11 @@
 <?php
+session_start();
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
+
 // Include config file
 require_once "config.php";
+
 ?>
 <?php
 require_once "config.php";
@@ -164,14 +167,14 @@ if (isset($_GET["action"])) {
                 </script>
                 <!-- <input type="submit" class="btn btn-outline-secondary" onclick="location.href = 'placeOrder.php';"
                     value="Place Oreder"> -->
-                <input type="submit" class="btn btn-outline-secondary" onclick="myFunction() " value="Place Oreder">
+                <input type="submit" class="btn btn-outline-secondary" onclick="myFunction() " value="Place Order">
             </div>
 
         </div>
 
 
         <br />
-        <h3 align="center">Kolakanda List</h3><br />
+        <h3 align="center">Your Tommorow Kolakanda Menu</h3><br />
         <br /><br />
 
 
@@ -184,8 +187,12 @@ if (isset($_GET["action"])) {
                 while ($row = mysqli_fetch_array($result)) {
                     $secondtype =  $row["type"];
                     $suppler_city = $row['city'];
-                    if ($suppler_city == $city  && $user_role == "customer") { //Check User city equal to product city
-                        if ($row["type"] == 'kolakanda') {
+
+                    // for ($i = 0; $i < count($array_agent); $i++) {
+                    foreach ($array_agent as $value) {
+
+                        if ($suppler_city == $value  && $user_role == "customer") { //Check User city equal to product city
+                            if ($row["type"] == 'kolakanda') {
             ?>
             <div class="col-md-4">
                 <form method="post" action="kolakanda.php?action=add&id=<?php echo $row["id"]; ?>">
@@ -221,11 +228,12 @@ if (isset($_GET["action"])) {
 
 
             <?php
+                            }
                         }
                     }
                     if ($user_role == "admin") {
                         if ($row["type"] == 'kolakanda') {
-                        ?>
+                            ?>
             <div class="col-md-4">
                 <form method="post" action="kolakanda.php?action=add&id=<?php echo $row["id"]; ?>">
                     <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"

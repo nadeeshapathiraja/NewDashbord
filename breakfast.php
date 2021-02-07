@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //include auth_session.php file on all user panel pages
 include("auth_session.php");
 // Include config file
@@ -22,7 +22,7 @@ if (isset($_POST["add_to_cart"])) {
                 'item_name'            =>    $_POST["hidden_name"],
                 'size'        =>    $_POST["size"],
                 'item_quantity'        =>    $_POST["quantity"],
-                'item_price' => 100
+                'item_price' => 150
             );
         } elseif ($_POST["size"] == '1') {
             $item_array = array(
@@ -30,7 +30,7 @@ if (isset($_POST["add_to_cart"])) {
                 'item_name'            =>    $_POST["hidden_name"],
                 'size'        =>    $_POST["size"],
                 'item_quantity'        =>    $_POST["quantity"],
-                'item_price' => 120
+                'item_price' => 200
             );
         }
 
@@ -47,7 +47,7 @@ if (isset($_POST["add_to_cart"])) {
                 'item_name'            =>    $_POST["hidden_name"],
                 'size'        =>    $_POST["size"],
                 'item_quantity'        =>    $_POST["quantity"],
-                'item_price' => 100 //Change value 
+                'item_price' => 150 //Change value 
             );
         } elseif ($_POST["size"] == "1") {
             $item_array = array(
@@ -55,7 +55,7 @@ if (isset($_POST["add_to_cart"])) {
                 'item_name'            =>    $_POST["hidden_name"],
                 'size'        =>    $_POST["size"],
                 'item_quantity'        =>    $_POST["quantity"],
-                'item_price' => 120 //cahange value
+                'item_price' => 200 //cahange value
             );
         }
         $_SESSION["shopping_cart"][0] = $item_array;
@@ -168,14 +168,14 @@ if (isset($_GET["action"])) {
                 </script>
                 <!-- <input type="submit" class="btn btn-outline-secondary" onclick="location.href = 'placeOrder.php';"
                     value="Place Oreder"> -->
-                <input type="submit" class="btn btn-outline-secondary" onclick="myFunction() " value="Place Oreder">
+                <input type="submit" class="btn btn-outline-secondary" onclick="myFunction() " value="Place Order">
             </div>
 
         </div>
 
 
         <br />
-        <h3 align="center">Breakfast List</h3><br />
+        <h3 align="center">Your Tommorow Breakfast Menu</h3><br />
         <br /><br />
 
 
@@ -188,8 +188,10 @@ if (isset($_GET["action"])) {
                 while ($row = mysqli_fetch_array($result)) {
                     $secondtype =  $row["type"];
                     $suppler_city = $row['city'];
-                    if ($suppler_city == $city  && $user_role == "customer") { //Check User city equal to product city
-                        if ($row["type"] == 'breakfast') {
+                    foreach ($array_agent as $value) {
+
+                        if ($suppler_city == $value  && $user_role == "customer") { //Check User city equal to product city
+                            if ($row["type"] == 'breakfast') {
             ?>
             <div class="col-md-4">
                 <form method="post" action="breakfast.php?action=add&id=<?php echo $row["id"]; ?>">
@@ -224,14 +226,15 @@ if (isset($_GET["action"])) {
 
 
             <?php
+                            }
                         }
                     }
                     if ($user_role == "admin") {
                         if ($row["type"] == 'breakfast') {
-                        ?>
+                            ?>
             <div class="col-md-4">
                 <form method="post" action="breakfast.php?action=add&id=<?php echo $row["id"]; ?>">
-                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
+                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 450px;"
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"

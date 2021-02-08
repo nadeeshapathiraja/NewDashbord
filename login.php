@@ -100,6 +100,8 @@ if (isset($_REQUEST['submit'])) {
 
     .login-box {
         margin-top: 75px;
+        position: center center;
+        attachment: fixed;
         height: auto;
         /* background: #1a2226; */
         text-align: center;
@@ -128,7 +130,6 @@ if (isset($_REQUEST['submit'])) {
         margin-top: 25px;
         text-align: left;
     }
-
 
     input[type="email"] {
         /* background-color: #1a2226; */

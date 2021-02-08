@@ -72,14 +72,31 @@ if (isset($_REQUEST['username'])) {
     }
 
     body {
-        background: #32cd32;
+        margin: 0;
+        padding: 0;
         font-family: "Roboto", sans-serif;
+    }
+
+    body:before {
+        content: '';
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background-image: url("images/logo.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: 630px;
+        -webkit-filter: opacity(0.5);
+        -moz-filter: opacity(0.5);
+        filter:
+
     }
 
     .login-box {
         margin-top: 75px;
         height: auto;
-        background: #1a2226;
+        /* background: #1a2226; */
         text-align: center;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     }
@@ -95,11 +112,11 @@ if (isset($_REQUEST['username'])) {
     .login-title {
         margin-top: 15px;
         text-align: center;
-        font-size: 30px;
+        font-size: 50px;
         letter-spacing: 2px;
         margin-top: 15px;
         font-weight: bold;
-        color: #ecf0f5;
+        color: Black;
     }
 
     .login-form {
@@ -108,8 +125,9 @@ if (isset($_REQUEST['username'])) {
     }
 
     input[type="text"] {
-        background-color: #1a2226;
+        /* background-color: #1a2226; */
         border: none;
+        background-color: rgba(0, 0, 0, 0.1);
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
         border-radius: 0px;
@@ -121,8 +139,9 @@ if (isset($_REQUEST['username'])) {
     }
 
     input[type="email"] {
-        background-color: #1a2226;
+        /* background-color: #1a2226; */
         border: none;
+        background-color: rgba(0, 0, 0, 0.1);
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
         border-radius: 0px;
@@ -134,7 +153,7 @@ if (isset($_REQUEST['username'])) {
     }
 
     input[type="password"] {
-        background-color: #1a2226;
+        background-color: rgba(0, 0, 0, 0.1);
         border: none;
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
@@ -157,8 +176,8 @@ if (isset($_REQUEST['username'])) {
         box-shadow: none;
         border-bottom: 2px solid #0db8de;
         outline: 0;
-        background-color: #1a2226;
-        color: #ecf0f5;
+        background-color: rgba(0, 0, 0, 0.1);
+        color: Black;
     }
 
     input:focus {
@@ -171,8 +190,8 @@ if (isset($_REQUEST['username'])) {
     }
 
     .form-control-label {
-        font-size: 10px;
-        color: white;
+        font-size: 15px;
+        color: Black;
         font-weight: bold;
         letter-spacing: 1px;
     }
@@ -204,15 +223,17 @@ if (isset($_REQUEST['username'])) {
     .login-text {
         text-align: left;
         padding-left: 0px;
-        color: #a2a4a4;
+        color: Black;
     }
 
     .loginbttm {
-        padding: 0px;
+        padding: 2px;
     }
 
     .redirect-page {
-        color: white;
+        font-size: 18px;
+        color: Black;
+        font-weight: bold;
     }
 
     .help-block {
@@ -229,9 +250,9 @@ if (isset($_REQUEST['username'])) {
             <div class="col-lg-3 col-md-2"></div>
             <div class="col-lg-6 col-md-8 login-box">
 
-                <div class="logo">
+                <!-- <div class="logo">
                     <a href="index.html"><img src="images/logo.png" alt="#" style="width: 150px;" /></a>
-                </div>
+                </div> -->
                 <div class="col-lg-12 login-title">
                     Sign Up
                 </div>

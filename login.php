@@ -77,8 +77,25 @@ if (isset($_REQUEST['submit'])) {
     }
 
     body {
-        background: #32cd32;
+        margin: 0;
+        padding: 0;
         font-family: "Roboto", sans-serif;
+    }
+
+    body:before{
+        content: '';
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background-image: url("images/logo.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed; 
+        background-size: 800px;
+        -webkit-filter: opacity(0.5);
+        -moz-filter: opacity(0.5);
+        filter:
+
     }
 
     .login-box {
@@ -127,7 +144,7 @@ if (isset($_REQUEST['submit'])) {
     }
 
     input[type="password"] {
-        background-color: #1a2226;
+        /* background-color: #1a2226; */
         border: none;
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
@@ -222,9 +239,9 @@ if (isset($_REQUEST['submit'])) {
             <div class="col-lg-3 col-md-2"></div>
             <div class="col-lg-6 col-md-8 login-box">
 
-                <div class="logo">
+                <!-- <div class="logo">
                     <a href="index.html"><img src="images/logo.png" alt="#" style="width: 150px;" /></a>
-                </div>
+                </div> -->
                 <div class="col-lg-12 login-title">
                     Sign In
                 </div>

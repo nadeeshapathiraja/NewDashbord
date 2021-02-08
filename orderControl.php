@@ -110,7 +110,6 @@ require_once "config.php";
                             <th>Phone</th>
                             <th>Address</th>
                             <th>Branch Name</th>
-                            <th>Place</th>
                             <th>Cart Items</th>
                             <th>Ordered Date</th>
                             <th>Action</th>
@@ -143,7 +142,6 @@ require_once "config.php";
                                 <td><?php echo $rows['phone']; ?></td>
                                 <td><?php echo $rows['address']; ?></td>
                                 <td><?php echo $rows['city']; ?></td>
-                                <td><?php echo $rows['place']; ?></td>
                                 <td style="width:250px"><?php
                                                                 $data = JSON_DECODE($rows['final_cart_item'], true);
                                                                 if (is_array($data) || is_object($data)) {

@@ -82,7 +82,7 @@ if (isset($_REQUEST['submit'])) {
         font-family: "Roboto", sans-serif;
     }
 
-    body:before{
+    body:before {
         content: '';
         position: fixed;
         width: 100vw;
@@ -90,8 +90,8 @@ if (isset($_REQUEST['submit'])) {
         background-image: url("images/logo.png");
         background-repeat: no-repeat;
         background-position: center center;
-        background-attachment: fixed; 
-        background-size: 800px;
+        background-attachment: fixed;
+        background-size: 630px;
         -webkit-filter: opacity(0.5);
         -moz-filter: opacity(0.5);
         filter:
@@ -121,7 +121,7 @@ if (isset($_REQUEST['submit'])) {
         letter-spacing: 2px;
         margin-top: 15px;
         font-weight: bold;
-        color: white;
+        color: Black;
     }
 
     .login-form {
@@ -133,6 +133,7 @@ if (isset($_REQUEST['submit'])) {
     input[type="email"] {
         /* background-color: #1a2226; */
         border: none;
+        background-color: rgba(0, 0, 0, 0.1);
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
         border-radius: 0px;
@@ -146,6 +147,20 @@ if (isset($_REQUEST['submit'])) {
     input[type="password"] {
         /* background-color: #1a2226; */
         border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        padding-left: 0px;
+        margin-bottom: 20px;
+        color: Black;
+    }
+
+    .classPlace {
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
         border-radius: 0px;
@@ -167,8 +182,8 @@ if (isset($_REQUEST['submit'])) {
         box-shadow: none;
         border-bottom: 2px solid #0db8de;
         outline: 0;
-        background-color: #1a2226;
-        color: #ecf0f5;
+        background-color: rgba(0, 0, 0, 0.1);
+        color: Black;
     }
 
     input:focus {
@@ -188,8 +203,8 @@ if (isset($_REQUEST['submit'])) {
     }
 
     .btn-outline-primary {
-        border-color: #0db8de;
-        color: #0db8de;
+        border-color: Black;
+        color: #098106;
         border-radius: 0px;
         font-weight: bold;
         letter-spacing: 1px;
@@ -197,7 +212,7 @@ if (isset($_REQUEST['submit'])) {
     }
 
     .btn-outline-primary:hover {
-        background-color: #0db8de;
+        background-color: #098106;
         right: 0px;
     }
 
@@ -214,15 +229,17 @@ if (isset($_REQUEST['submit'])) {
     .login-text {
         text-align: left;
         padding-left: 0px;
-        color: #a2a4a4;
+        color: Black;
     }
 
     .loginbttm {
-        padding: 0px;
+        padding: 2px;
     }
 
     .redirect-page {
+        font-size: 18px;
         color: Black;
+        font-weight: bold;
     }
 
     .help-block {
@@ -260,8 +277,8 @@ if (isset($_REQUEST['submit'])) {
                                 <input type="password" name="password" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="sel1">Please Select Your Current Place:</label>
-                                <select class="form-control" id="currentplace" name="currentplace">
+                                <label class="form-control-label">Please Select Your Current Place:</label>
+                                <select class="form-control classPlace" id="currentplace" name="currentplace">
                                     <?php
                                     $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
                                     $resultArea = mysqli_query($con, $queryArea);

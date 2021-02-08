@@ -195,7 +195,7 @@ if (isset($_GET["action"])) {
             ?>
             <div class="col-md-4">
                 <form method="post" action="breakfast.php?action=add&id=<?php echo $row["id"]; ?>">
-                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 410px;"
+                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 450px; margin-bottom:3px;"
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
@@ -234,7 +234,7 @@ if (isset($_GET["action"])) {
                             ?>
             <div class="col-md-4">
                 <form method="post" action="breakfast.php?action=add&id=<?php echo $row["id"]; ?>">
-                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 450px;"
+                    <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 450px; margin-bottom:3px;"
                         align="center">
 
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"

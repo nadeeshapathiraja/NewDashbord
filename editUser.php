@@ -70,8 +70,9 @@ $result = mysqli_query($con, $query);
             </div>
         </form>
     </div>
-    <?php include 'footer.php'; ?>
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>
 

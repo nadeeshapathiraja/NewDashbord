@@ -132,8 +132,9 @@ $result = mysqli_query($con, $query);
             </div>
         </form>
     </div>
-    <?php include 'footer.php'; ?>
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>
 
@@ -146,11 +147,11 @@ if (isset($_POST['update'])) {
             $description = $_POST['description'];
             $type = $_POST['type'];
             $activity = $_POST['activity'];
-
+            $file_name = $_FILES['image']['name'];
             // include config file
             require_once("config.php");
 
-            $sql2 = "UPDATE tbl_product SET name='$name', description='$description' , type='$type' , activity='$activity' WHERE id=$id_edit";
+            $sql2 = "UPDATE tbl_product SET name='$name', description='$description' ,image='$file_name', type='$type' , activity='$activity' WHERE id=$id_edit";
             $result2 = mysqli_query($con, $sql2);
 
             if ($con->query($sql) === TRUE) {

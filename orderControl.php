@@ -23,7 +23,7 @@ require_once "config.php";
     <br><br><br><br><br><br><br>
 
     <div class="container-fluid">
-        <h2>Admin Product Control</h2>
+        <h2>Admin Order Control</h2>
         <br>
         <h2>Add Order</h2>
         <div class="row">
@@ -191,8 +191,9 @@ require_once "config.php";
 
 
     </div>
-    <?php include 'footer.php'; ?>
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>
 

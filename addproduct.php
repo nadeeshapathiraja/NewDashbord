@@ -8,18 +8,12 @@ if (isset($_REQUEST['save'])) {
             $description = $_POST['description'];
             $type = $_POST['type'];
             $city = $_POST['city'];
-            // $file_tmp = $_FILES['image']['tmp_name'];
-            // $file_name = $_FILES['image']['name'];
+            $file_tmp = $_FILES['image']['tmp_name'];
+            $file_name = $_FILES['image']['name'];
             $activity = 1;
-            if ($type == 'kolakanda') {
-                $file_name = 'kola.jpeg'; //change default pic
-            } else if ($type == 'breakfast') {
-                $file_name = 'bk.jpg'; //change default pic
-            }
 
-            // // include config file
             require_once("config.php");
-            // $target = "images/" . basename($file_name);
+            $target = "images/" . basename($file_name);
 
             $sql = "INSERT INTO tbl_product (name, image, description,type,city,activity) VALUES ('$name','$file_name','$description','$type','$city','$activity')";
 
@@ -31,7 +25,7 @@ if (isset($_REQUEST['save'])) {
                 echo '<div class="alert alert-danger">Fill All Fields..!</div>';
             }
 
-            // header('location: fullcontrol.php');
+            header('location: fullcontrol.php');
         } else {
             echo "erro 1";
         }
@@ -82,10 +76,10 @@ if (isset($_REQUEST['save'])) {
                         <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label for="image">Image:</label>
                         <input type="file" class="form-control-file" id="image" name="image">
-                    </div> -->
+                    </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <input type="text" class="form-control" id="description" name="description">
@@ -107,7 +101,7 @@ if (isset($_REQUEST['save'])) {
 
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label">City</label>
+                        <label class="form-control-label">City</label><br>
 
                         <select id="city" name="city"><br>
                             <?php
@@ -147,18 +141,12 @@ if (isset($_REQUEST['save'])) {
                 $description = $_POST['description'];
                 $type = $_POST['type'];
                 $city = $_POST['city'];
-                // $file_tmp = $_FILES['image']['tmp_name'];
-                // $file_name = $_FILES['image']['name'];
+                $file_tmp = $_FILES['image']['tmp_name'];
+                $file_name = $_FILES['image']['name'];
                 $activity = 1;
-                if ($type == 'kolakanda') {
-                    $file_name = 'kola.jpeg'; //change default pic
-                } else if ($type == 'breakfast') {
-                    $file_name = 'bk.jpg'; //change default pic
-                }
 
-                // // include config file
                 require_once("config.php");
-                // $target = "images/" . basename($file_name);
+                $target = "images/" . basename($file_name);
 
                 $sql = "INSERT INTO tbl_product (name, image, description,type,city,activity) VALUES ('$name','$file_name','$description','$type','$city','$activity')";
 
@@ -170,7 +158,7 @@ if (isset($_REQUEST['save'])) {
                     echo '<div class="alert alert-danger">Fill All Fields..!</div>';
                 }
 
-                // header('location: fullcontrol.php');
+                header('location: fullcontrol.php');
             } else {
                 echo "erro 1";
             }
@@ -204,69 +192,82 @@ if (isset($_REQUEST['save'])) {
     <div class="container">
 
         <form method="post" action="#" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Admin Add Product</h2>
+                    <div class="card" style="width:400px; margin-bottom:20px;">
 
-            <h2>Admin Add Product</h2>
-            <div class="card" style="width:400px">
+                        <div class="card-body">
 
-                <div class="card-body">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image:</label>
+                                <input type="file" class="form-control-file" id="image" name="image">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <input type="text" class="form-control" id="description" name="description">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Type:</label><br>
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="type" value="kolakanda"
+                                            id="type">Kola Kanda
+                                    </label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="type" id="type"
+                                            value="breakfast">Breakfast
+                                    </label>
+                                </div>
 
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="name" name="name">
-                    </div>
-                    <!-- <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input type="file" class="form-control-file" id="image" name="image">
-                    </div> -->
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <input type="text" class="form-control" id="description" name="description">
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Type:</label><br>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="type" value="kolakanda"
-                                    id="type">Kola Kanda
-                            </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">City</label>
+
+                                <select id="city" name="city"><br>
+                                    <?php
+                                        require_once("config.php");
+                                        $query = "SELECT * FROM tbl_city";
+                                        $result2 = mysqli_query($con, $query);
+                                        if (mysqli_num_rows($result2) > 0) {
+                                            while ($row = mysqli_fetch_array($result2)) {
+                                        ?>
+                                    <option value="<?php echo $row['city_name'] ?>">
+                                        <?php echo $row["city_name"]; ?></option>
+                                    <?php }
+                                        } ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="type" id="type"
-                                    value="breakfast">Breakfast
-                            </label>
+                        <br>
+                        <div class="input-group" style="margin-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" type="submit" name="save">Save</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning" type="reset" value="Reset">Reset</button>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
                         </div>
-
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label">City</label>
-
-                        <select id="city" name="city"><br>
-                            <?php
-                                require_once("config.php");
-                                $query = "SELECT * FROM tbl_city";
-                                $result2 = mysqli_query($con, $query);
-                                if (mysqli_num_rows($result2) > 0) {
-                                    while ($row = mysqli_fetch_array($result2)) {
-                                ?>
-                            <option value="<?php echo $row['city_name'] ?>">
-                                <?php echo $row["city_name"]; ?></option>
-                            <?php }
-                                } ?>
-                        </select>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="input-group">
-                    <button class="btn btn-primary" type="submit" name="save">Save</button>
-                    <button class="btn btn-warning" type="reset" value="Reset">Reset</button>
                 </div>
             </div>
-        </form>
     </div>
-    <?php include 'footer.php'; ?>
+
+    </form>
+    </div>
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>
 

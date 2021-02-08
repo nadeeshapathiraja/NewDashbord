@@ -42,7 +42,7 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
                 <tr>
                     <th>Image</th>
                     <th>Name</th>
-                    <th>Description</th>
+                    <th>City</th>
                     <th>Type</th>
                     <th>Action</th>
                 </tr>
@@ -53,7 +53,7 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
                     <form action="#">
                         <td><img src='images/<?php echo $row['image']; ?>' width=100px height=100px /><br /></td>
                         <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['description']; ?></td>
+                        <td><?php echo $row['city']; ?></td>
                         <td><?php echo $row['type']; ?></td>
                         <td>
                             <a class="btn btn-warning" href="editProduct.php?id=<?php echo $row["id"]; ?>">Edit</a>
@@ -82,8 +82,9 @@ $results = mysqli_query($con, "SELECT * FROM tbl_product");
         </table>
 
     </div>
-    <?php include 'footer.php'; ?>
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>
 

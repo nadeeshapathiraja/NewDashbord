@@ -279,7 +279,8 @@ if (isset($_GET["action"])) {
     </div>
     </div>
     <br />
-    <?php include 'footer.php'; ?>
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>

@@ -61,8 +61,10 @@ $results = mysqli_query($con, "SELECT * FROM users WHERE user_role='customer'");
         </table>
 
     </div>
-    <?php include 'footer.php'; ?>
+
+
 </body>
+<?php include 'footer.php'; ?>
 
 </html>
 

@@ -84,7 +84,7 @@ if (isset($_REQUEST['submit'])) {
     .login-box {
         margin-top: 75px;
         height: auto;
-        background: #1a2226;
+        /* background: #1a2226; */
         text-align: center;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     }
@@ -100,11 +100,11 @@ if (isset($_REQUEST['submit'])) {
     .login-title {
         margin-top: 15px;
         text-align: center;
-        font-size: 30px;
+        font-size: 50px;
         letter-spacing: 2px;
         margin-top: 15px;
         font-weight: bold;
-        color: #ecf0f5;
+        color: white;
     }
 
     .login-form {
@@ -112,21 +112,9 @@ if (isset($_REQUEST['submit'])) {
         text-align: left;
     }
 
-    input[type="text"] {
-        background-color: #1a2226;
-        border: none;
-        border-bottom: 2px solid #0db8de;
-        border-top: 0px;
-        border-radius: 0px;
-        font-weight: bold;
-        outline: 0;
-        margin-bottom: 20px;
-        padding-left: 0px;
-        color: #ecf0f5;
-    }
 
     input[type="email"] {
-        background-color: #1a2226;
+        /* background-color: #1a2226; */
         border: none;
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
@@ -135,7 +123,7 @@ if (isset($_REQUEST['submit'])) {
         outline: 0;
         margin-bottom: 20px;
         padding-left: 0px;
-        color: #ecf0f5;
+        color: Black;
     }
 
     input[type="password"] {
@@ -148,7 +136,7 @@ if (isset($_REQUEST['submit'])) {
         outline: 0;
         padding-left: 0px;
         margin-bottom: 20px;
-        color: #ecf0f5;
+        color: Black;
     }
 
     .form-group {
@@ -176,8 +164,8 @@ if (isset($_REQUEST['submit'])) {
     }
 
     .form-control-label {
-        font-size: 10px;
-        color: #6c6c6c;
+        font-size: 15px;
+        color: Black;
         font-weight: bold;
         letter-spacing: 1px;
     }
@@ -217,7 +205,7 @@ if (isset($_REQUEST['submit'])) {
     }
 
     .redirect-page {
-        color: white;
+        color: Black;
     }
 
     .help-block {

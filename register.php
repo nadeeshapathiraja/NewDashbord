@@ -133,9 +133,9 @@ if (isset($_REQUEST['username'])) {
         border-radius: 0px;
         font-weight: bold;
         outline: 0;
-        margin-bottom: 20px;
         padding-left: 0px;
-        color: #ecf0f5;
+        margin-bottom: 20px;
+        color: Black;
     }
 
     input[type="email"] {
@@ -149,12 +149,13 @@ if (isset($_REQUEST['username'])) {
         outline: 0;
         margin-bottom: 20px;
         padding-left: 0px;
-        color: #ecf0f5;
+        color: Black;
     }
 
     input[type="password"] {
-        background-color: rgba(0, 0, 0, 0.1);
+        /* background-color: #1a2226; */
         border: none;
+        background-color: rgba(0, 0, 0, 0.1);
         border-bottom: 2px solid #0db8de;
         border-top: 0px;
         border-radius: 0px;
@@ -162,7 +163,20 @@ if (isset($_REQUEST['username'])) {
         outline: 0;
         padding-left: 0px;
         margin-bottom: 20px;
-        color: #ecf0f5;
+        color: Black;
+    }
+
+    .classPlace {
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        padding-left: 0px;
+        margin-bottom: 20px;
+        color: Black;
     }
 
     .form-group {
@@ -197,8 +211,8 @@ if (isset($_REQUEST['username'])) {
     }
 
     .btn-outline-primary {
-        border-color: #0db8de;
-        color: #0db8de;
+        border-color: Black;
+        color: #098106;
         border-radius: 0px;
         font-weight: bold;
         letter-spacing: 1px;
@@ -206,7 +220,7 @@ if (isset($_REQUEST['username'])) {
     }
 
     .btn-outline-primary:hover {
-        background-color: #0db8de;
+        background-color: #098106;
         right: 0px;
     }
 
@@ -283,19 +297,21 @@ if (isset($_REQUEST['username'])) {
                             </div>
 
                             <div class="form-group">
-                                <label class="form-control-label">Nearest City</label>
-
-                                <select id="city" name="city">
+                                <label class="form-control-label">Please Select Your Nearest Place:</label>
+                                <select class="form-control classPlace" id="city" name="city">
                                     <?php
-                                    $query = "SELECT * FROM tbl_all_area ORDER BY area_name";
-                                    $result = mysqli_query($con, $query);
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_array($result)) {
+                                    $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
+                                    $resultArea = mysqli_query($con, $queryArea);
+                                    if (mysqli_num_rows($resultArea) > 0) {
+                                        while ($rowArea = mysqli_fetch_array($resultArea)) {
                                     ?>
-                                    <option value="<?php echo $row['area_name'] ?>">
-                                        <?php echo $row["area_name"]; ?></option>
-                                    <?php }
-                                    } ?>
+                                    <option value="<?php echo $rowArea['area_name']; ?>">
+                                        <?php echo $rowArea['area_name']; ?>
+                                    </option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
 
@@ -303,9 +319,9 @@ if (isset($_REQUEST['username'])) {
                                 <div class="col-lg-6 login-btm login-text">
                                     <!-- Error Message -->
                                 </div>
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                                    <input type="reset" class="btn btn-default" value="Reset">
+                                <div class="form-group btn_row">
+                                    <input type="submit" class="btn btn-outline-primary" name="submit" value="SignUp">
+                                    <input type="reset" class="btn btn-danger" value="Reset">
                                 </div>
                             </div>
                             <br>

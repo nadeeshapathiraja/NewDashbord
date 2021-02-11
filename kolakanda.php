@@ -238,7 +238,7 @@ if (isset($_GET["action"])) {
                 <form method="post" action="kolakanda.php?action=add&id=<?php echo $row["id"]; ?>">
                     <div style="border:3px solid #5cb85c; background-color:whitesmoke; border-radius:5px; padding:16px; width: 300px;height: 450px; margin-bottom:3px;"
                         align="center">
-
+                        <h6 class="text-info"><?php echo $row["city"]; ?></h6>
                         <img src="images/<?php echo $row["image"]; ?>" class="img-responsive"
                             style="width: 250px; height: 200px;" /><br />
 

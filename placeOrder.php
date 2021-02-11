@@ -5,6 +5,7 @@ error_reporting(0);
 include("auth_session.php");
 // Include config file
 require_once "config.php";
+$currentplace = $_SESSION['currentplace'];
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +48,75 @@ require_once "config.php";
         filter:
 
     }
+
+    input[type="text"] {
+
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        margin-bottom: 20px;
+        padding-left: 0px;
+        color: Black;
+    }
+
+    input[type="email"] {
+        /* background-color: #1a2226; */
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        margin-bottom: 20px;
+        padding-left: 0px;
+        color: Black;
+    }
+
+    input[type="tel"] {
+        /* background-color: #1a2226; */
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        margin-bottom: 20px;
+        padding-left: 0px;
+        color: Black;
+    }
+
+    .comment {
+
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        margin-bottom: 20px;
+        padding-left: 0px;
+        color: Black;
+    }
+
+    .classPlace {
+        border: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid #0db8de;
+        border-top: 0px;
+        border-radius: 0px;
+        font-weight: bold;
+        outline: 0;
+        padding-left: 0px;
+        margin-bottom: 20px;
+        color: Black;
+    }
     </style>
 </head>
 
@@ -87,10 +157,13 @@ require_once "config.php";
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="usr">Address:</label>
-                        <input type="text" class="form-control" id="address" name="address">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="usr">Address:</label>
+                                <input type="text" class="form-control" id="address" name="address">
+                            </div>
+                        </div>
                     </div>
 
                     <?php
@@ -108,7 +181,7 @@ require_once "config.php";
                             <div class="form-group">
                                 <!-- <label for="usr">Place:</label> -->
                                 <input type="hidden" class="form-control" id="place" name="place"
-                                    value="<?php echo $city; ?>">
+                                    value="<?php echo $currentplace; ?>">
                             </div>
                         </div>
                     </div>
@@ -121,7 +194,7 @@ require_once "config.php";
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="sel1">Main City:</label>
-                                <select class="form-control" id="city" name="city">
+                                <select class="form-control classPlace" id="city" name="city">
                                     <?php
                                         $queryCity = "SELECT * FROM tbl_city ORDER BY city_name ASC";
                                         $resultCity = mysqli_query($con, $queryCity);
@@ -141,7 +214,7 @@ require_once "config.php";
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="sel1">Nearest Place:</label>
-                                <select class="form-control" id="place" name="place">
+                                <select class="form-control classPlace" id="place" name="place">
                                     <?php
                                         $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
                                         $resultArea = mysqli_query($con, $queryArea);
@@ -163,12 +236,16 @@ require_once "config.php";
 
                     }
                     ?>
-
-
-                    <div class="form-group">
-                        <label for="comment">Comment:</label>
-                        <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control comment" rows="5" id="comment" name="comment"></textarea>
+                            </div>
+                        </div>
                     </div>
+
+
 
                     <div class="row">
                         <div class="col-md-8"></div>
@@ -207,6 +284,8 @@ if (isset($_REQUEST['order'])) {
     $final_cart_item = json_encode($cart_item);
     $ordered_at = date("Y-m-d H:i:s");
 
+
+
     require_once("config.php");
 
     $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item,ordered_at) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item','$ordered_at')";
@@ -214,6 +293,17 @@ if (isset($_REQUEST['order'])) {
 
     unset($_SESSION["shopping_cart"]);
     $_SESSION["order_message"] = "Your Last Order Send Success..! You can Order again Now. Thank You.";
+
+
+    $queryAgent = "SELECT * FROM tbl_city WHERE city_name=$city";
+    $resultAgent = mysqli_query($con, $queryAgent);
+    if (mysqli_num_rows($resultAgent) > 0) {
+        while ($rowAgent = mysqli_fetch_array($resultAgent)) {
+            echo $rowAgent['email'];
+        }
+    }
+
+
 ?>
 <script type="text/javascript">
 window.location = "index.php";

@@ -1,4 +1,8 @@
-<!doctype html>
+<div class="form-group">
+    <label for="usr">Address:</label>
+    <input type="text" class="form-control" id="address" name="address">
+</div>
+<!-- <!doctype html>
 <html lang="en">
 
 <head>
@@ -61,4 +65,4 @@
     </script>
 </body>
 
-</html>
+</html> -->

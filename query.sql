@@ -38,7 +38,8 @@ CREATE TABLE tbl_city (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     city_name varchar(255),
     agent varchar(255),
-    phone varchar(255)
+    phone varchar(255),
+    email varchar(255)
 );
 
 CREATE TABLE tbl_area (

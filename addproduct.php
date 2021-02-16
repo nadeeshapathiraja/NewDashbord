@@ -21,6 +21,7 @@ if (isset($_REQUEST['save'])) {
 
             if ($result) {
                 $SESSION['addproduct_msg'] = 'Item Inseration Success..!';
+                move_uploaded_file($_FILES["image"]["tmp_name"], $target);
             } else {
                 echo '<div class="alert alert-danger">Fill All Fields..!</div>';
             }
@@ -154,6 +155,7 @@ if (isset($_REQUEST['save'])) {
 
                 if ($result) {
                     $SESSION['addproduct_msg'] = 'Item Inseration Success..!';
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $target);
                 } else {
                     echo '<div class="alert alert-danger">Fill All Fields..!</div>';
                 }

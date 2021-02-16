@@ -6,6 +6,7 @@ include("auth_session.php");
 // Include config file
 require_once "config.php";
 $currentplace = $_SESSION['currentplace'];
+
 ?>
 
 <!DOCTYPE html>
@@ -45,8 +46,7 @@ $currentplace = $_SESSION['currentplace'];
         background-size: 550px;
         -webkit-filter: opacity(0.5);
         -moz-filter: opacity(0.5);
-        filter:
-
+        filter: saturate()
     }
 
     input[type="text"] {
@@ -125,6 +125,148 @@ $currentplace = $_SESSION['currentplace'];
     <br><br><br><br><br><br><br>
     <div class="container" style="margin-bottom: 50px;">
         <div class="card">
+            <?php
+            if (isset($_COOKIE['first_name'])) {
+                echo "Helloooooooooooooooooo";
+            ?>
+            <div class="card-body">
+                <h4 class="card-title">Order Details</h4>
+                <form action="#" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="usr">First Name:</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name"
+                                    value="<?php echo $_COOKIE['first_name']; ?>">
+                            </div>
+                        </div>
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label for="usr">Last Name:</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="usr">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="<?php echo $email; ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="usr">Contact Number:</label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="usr">Address:</label>
+                                <input type="text" class="form-control" id="address" name="address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                        if ($user_role == 'customer') {
+                        ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="usr">Agent:</label> -->
+                                <input type="hidden" class="form-control" id="city" name="city"
+                                    value="<?php echo $agent; ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="usr">Place:</label> -->
+                                <input type="hidden" class="form-control" id="place" name="place"
+                                    value="<?php echo $currentplace; ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                        }
+                        if ($user_role == "admin") {
+
+                        ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">Main City:</label>
+                                <select class="form-control classPlace" id="city" name="city">
+                                    <?php
+                                            $queryCity = "SELECT * FROM tbl_city ORDER BY city_name ASC";
+                                            $resultCity = mysqli_query($con, $queryCity);
+                                            if (mysqli_num_rows($resultCity) > 0) {
+                                                while ($rowCity = mysqli_fetch_array($resultCity)) {
+                                            ?>
+                                    <option value="<?php echo $rowCity['city_name']; ?>">
+                                        <?php echo $rowCity['city_name']; ?>
+                                    </option>
+                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">Nearest Place:</label>
+                                <select class="form-control classPlace" id="place" name="place">
+                                    <?php
+                                            $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
+                                            $resultArea = mysqli_query($con, $queryArea);
+                                            if (mysqli_num_rows($resultArea) > 0) {
+                                                while ($rowArea = mysqli_fetch_array($resultArea)) {
+                                            ?>
+                                    <option value="<?php echo $rowArea['area_name']; ?>">
+                                        <?php echo $rowArea['area_name']; ?>
+                                    </option>
+                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+
+                        }
+                        ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control comment" rows="5" id="comment" name="comment"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <input type="submit" class="btn btn-info" name="order" value="Order Now">
+                            <input type="submit" class="btn btn-danger" name="cancle" value="Cancle Order">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <?php
+            } else {
+            ?>
+
+
             <div class="card-body">
                 <h4 class="card-title">Order Details</h4>
                 <form action="#" method="post">
@@ -167,8 +309,8 @@ $currentplace = $_SESSION['currentplace'];
                     </div>
 
                     <?php
-                    if ($user_role == 'customer') {
-                    ?>
+                        if ($user_role == 'customer') {
+                        ?>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -186,28 +328,28 @@ $currentplace = $_SESSION['currentplace'];
                         </div>
                     </div>
                     <?php
-                    }
-                    if ($user_role == "admin") {
+                        }
+                        if ($user_role == "admin") {
 
-                    ?>
+                        ?>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="sel1">Main City:</label>
                                 <select class="form-control classPlace" id="city" name="city">
                                     <?php
-                                        $queryCity = "SELECT * FROM tbl_city ORDER BY city_name ASC";
-                                        $resultCity = mysqli_query($con, $queryCity);
-                                        if (mysqli_num_rows($resultCity) > 0) {
-                                            while ($rowCity = mysqli_fetch_array($resultCity)) {
-                                        ?>
+                                            $queryCity = "SELECT * FROM tbl_city ORDER BY city_name ASC";
+                                            $resultCity = mysqli_query($con, $queryCity);
+                                            if (mysqli_num_rows($resultCity) > 0) {
+                                                while ($rowCity = mysqli_fetch_array($resultCity)) {
+                                            ?>
                                     <option value="<?php echo $rowCity['city_name']; ?>">
                                         <?php echo $rowCity['city_name']; ?>
                                     </option>
                                     <?php
+                                                }
                                             }
-                                        }
-                                        ?>
+                                            ?>
                                 </select>
                             </div>
                         </div>
@@ -216,26 +358,26 @@ $currentplace = $_SESSION['currentplace'];
                                 <label for="sel1">Nearest Place:</label>
                                 <select class="form-control classPlace" id="place" name="place">
                                     <?php
-                                        $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
-                                        $resultArea = mysqli_query($con, $queryArea);
-                                        if (mysqli_num_rows($resultArea) > 0) {
-                                            while ($rowArea = mysqli_fetch_array($resultArea)) {
-                                        ?>
+                                            $queryArea = "SELECT * FROM tbl_all_area ORDER BY area_name ASC";
+                                            $resultArea = mysqli_query($con, $queryArea);
+                                            if (mysqli_num_rows($resultArea) > 0) {
+                                                while ($rowArea = mysqli_fetch_array($resultArea)) {
+                                            ?>
                                     <option value="<?php echo $rowArea['area_name']; ?>">
                                         <?php echo $rowArea['area_name']; ?>
                                     </option>
                                     <?php
+                                                }
                                             }
-                                        }
-                                        ?>
+                                            ?>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <?php
 
-                    }
-                    ?>
+                        }
+                        ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -257,6 +399,7 @@ $currentplace = $_SESSION['currentplace'];
 
                 </form>
             </div>
+            <?php } ?>
         </div>
 
     </div>
@@ -283,12 +426,11 @@ if (isset($_REQUEST['order'])) {
     $cart_item = $_SESSION["shopping_cart"];
     $final_cart_item = json_encode($cart_item);
     $ordered_at = date("Y-m-d H:i:s");
+    $total = $_SESSION['total'];
 
+    setcookie($first_name, $first_name);
 
-
-    require_once("config.php");
-
-    $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item,ordered_at) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item','$ordered_at')";
+    $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item,total,ordered_at) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item','$total','$ordered_at')";
     $result = mysqli_query($con, $sql);
 
     unset($_SESSION["shopping_cart"]);

@@ -111,6 +111,7 @@ require_once "config.php";
                             <th>Address</th>
                             <th>Branch Name</th>
                             <th>Cart Items</th>
+                            <th>Total</th>
                             <th>Ordered Date</th>
                             <th>Action</th>
                         </tr>
@@ -158,15 +159,17 @@ require_once "config.php";
                                                                         } else if ($array["size"] == 400) {
                                                                             $size =  "400ml";
                                                                         }
-                                                                        echo "Name: " . $array['item_name'] . "<br>";
-                                                                        echo  "Size: " . $size  . "<br>";
-                                                                        echo "Quantity: " . $array['item_quantity'] . "<br>";
+                                                                        // echo "Name: " . $array['item_name'] . "<br>";
+                                                                        // echo  "Size: " . $size  . "<br>";
+                                                                        // echo "Quantity: " . $array['item_quantity'] . "<br>";
+                                                                        echo $array['item_name'] . "," . $size . "," . $array['item_quantity'] . "<br>";
                                                                         //var_dump($array);
                                                                     }
                                                                 }
                                                                 ?>
 
                                 </td>
+                                <td><?php echo $rows['total']; ?></td>
                                 <td><?php echo $rows['ordered_at']; ?></td>
                                 <td>
                                     <a class="btn btn-warning"
@@ -186,7 +189,9 @@ require_once "config.php";
                 </table>
             </div>
         </div>
+        <?php
 
+        ?>
 
     </div>
 

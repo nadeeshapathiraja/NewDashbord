@@ -48,7 +48,7 @@ require_once "config.php";
         <div class="row">
             <div class="col-md-3">
                 <a href="addproduct.php">
-                    <div class="card" style="height: 350px;">
+                    <div class="card" style="height: 300px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Add Products</h4>
@@ -59,7 +59,7 @@ require_once "config.php";
             </div>
             <div class="col-md-3">
                 <a href="fullcontrol.php">
-                    <div class="card" style="height: 350px;">
+                    <div class="card" style="height: 300px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Product Control</h4>
@@ -70,7 +70,7 @@ require_once "config.php";
             </div>
             <div class="col-md-3">
                 <a href="userControl.php">
-                    <div class="card" style="height: 350px;">
+                    <div class="card" style="height: 300px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">User Control</h4>
@@ -82,7 +82,7 @@ require_once "config.php";
 
             <div class="col-md-3">
                 <a href="orderControl.php">
-                    <div class="card" style="height: 350px;">
+                    <div class="card" style="height: 300px;">
                         <img src="images/about.png" alt="#" />
                         <div class="card-body">
                             <h4 class="card-title">Order Control</h4>

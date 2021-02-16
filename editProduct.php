@@ -13,6 +13,39 @@ $query = "SELECT * from tbl_product where id='$id_edit' ";
 $result = mysqli_query($con, $query);
 ?>
 
+<?php
+if (isset($_POST['update'])) {
+    if (isset($_POST['name']) && isset($_POST['type']) && $_FILES['image']['tmp_name']) {
+        if (count($_POST) > 0) {
+
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $type = $_POST['type'];
+            $activity = $_POST['activity'];
+            $file_tmp = $_FILES['image']['tmp_name'];
+            $file_name = $_FILES['image']['name'];
+
+
+            $target = "images/" . basename($file_name);
+            $sql2 = "UPDATE tbl_product SET name='$name', description='$description' ,image='$file_name', type='$type' , activity='$activity' WHERE id=$id_edit";
+            $result2 = mysqli_query($con, $sql2);
+            echo $result2;
+            if ($result2) {
+                echo "Record updated successfully: $result2<br />";
+                move_uploaded_file($_FILES["image"]["tmp_name"], $target);
+            } else {
+                echo "Error updating record: " . $con->error;
+            }
+
+            mysqli_close($con);
+            echo "<script>alert('Successfully Updated!!!'); window.location='fullcontrol.php'</script>";
+        }
+    } else {
+        echo "<script class='alert alert-danger'>alert('Fill All Fields');</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -137,37 +170,3 @@ $result = mysqli_query($con, $query);
 <?php include 'footer.php'; ?>
 
 </html>
-
-<?php
-if (isset($_POST['update'])) {
-    if (isset($_POST['name']) && isset($_POST['type']) && $_FILES['image']['tmp_name']) {
-        if (count($_POST) > 0) {
-
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $type = $_POST['type'];
-            $activity = $_POST['activity'];
-            $file_name = $_FILES['image']['name'];
-            // include config file
-            require_once("config.php");
-
-            $sql2 = "UPDATE tbl_product SET name='$name', description='$description' ,image='$file_name', type='$type' , activity='$activity' WHERE id=$id_edit";
-            $result2 = mysqli_query($con, $sql2);
-
-            if ($con->query($sql) === TRUE) {
-                echo "Record updated successfully: $result<br />";
-            } else {
-                echo "Error updating record: " . $con->error;
-            }
-
-            mysqli_close($con);
-            echo "<script>alert('Successfully Updated!!!'); window.location='fullcontrol.php'</script>";
-        }
-    } else {
-        echo "<script class='alert alert-danger'>alert('Fill All Fields');</script>";
-    }
-}
-
-
-
-?>

@@ -413,7 +413,7 @@ $currentplace = $_SESSION['currentplace'];
 
 //$final = json_decode($final);
 
-
+$f_name = "fname";
 if (isset($_REQUEST['order'])) {
     $first_name = $_REQUEST['first_name'];
     $last_name = $_REQUEST['last_name'];
@@ -428,22 +428,42 @@ if (isset($_REQUEST['order'])) {
     $ordered_at = date("Y-m-d H:i:s");
     $total = $_SESSION['total'];
 
-    setcookie($first_name, $first_name);
+    //setcookie($f_name, $first_name, time() + (86400 * 30));
 
     $sql = "INSERT INTO orders (first_name, last_name, email,phone,address,city,place,comment,final_cart_item,total,ordered_at) VALUES ('$first_name','$last_name','$email','$phone','$address','$city','$place','$comment','$final_cart_item','$total','$ordered_at')";
     $result = mysqli_query($con, $sql);
 
+    // //send mail to Admin Account
+    // $to = "bomu@kolakanda.com";
+    // $subject = "You Have New Order..!";
+    // $txt = "You got the new order from $place($city Branch)";
+    // $headers = $email . "\r\n";
+    // mail($to, $subject, $txt, $headers);
+
+    // //send mail to User Account
+    // $to = $email;
+    // $subject = "You Order Send Success..!";
+    // $txt = "Thank you For Order.";
+    // $headers = 'bomu@kolakanda.com' . "\r\n";
+    // mail($to, $subject, $txt, $headers);
+
+    // if (isset($_COOKIE[$f_name])) {
+    //     echo $_COOKIE[$f_name];
+    // }
+
+    //After Buy Clear Shopping cart
     unset($_SESSION["shopping_cart"]);
     $_SESSION["order_message"] = "Your Last Order Send Success..! You can Order again Now. Thank You.";
 
 
-    $queryAgent = "SELECT * FROM tbl_city WHERE city_name=$city";
-    $resultAgent = mysqli_query($con, $queryAgent);
-    if (mysqli_num_rows($resultAgent) > 0) {
-        while ($rowAgent = mysqli_fetch_array($resultAgent)) {
-            echo $rowAgent['email'];
-        }
-    }
+    // //Supplyer wise send mail
+    // $queryAgent = "SELECT * FROM tbl_city WHERE city_name=$city";
+    // $resultAgent = mysqli_query($con, $queryAgent);
+    // if (mysqli_num_rows($resultAgent) > 0) {
+    //     while ($rowAgent = mysqli_fetch_array($resultAgent)) {
+    //         echo $rowAgent['email'];
+    //     }
+    // }
 
 
 ?>

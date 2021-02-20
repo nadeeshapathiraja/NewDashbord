@@ -4,6 +4,7 @@ session_start();
 include("auth_session.php");
 // Include config file
 require_once "config.php";
+
 ?>
 
 <?php

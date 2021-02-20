@@ -29,5 +29,23 @@ if ($con === false) {
 
 // Check connection
 //if ($con === false) {
-   // die("ERROR: Could not connect. " . mysqli_connect_error());
+// die("ERROR: Could not connect. " . mysqli_connect_error());
 //}
+?>
+
+<!-- For New hosting -->
+<?php
+
+//define('DB_SERVER', 'sdb-a.hosting.stackcp.net');
+//define('DB_USERNAME', 'ceilancotech');
+//define('DB_PASSWORD', 'ceilancotech.com');
+//define('DB_NAME', 'kolakandastore-313637bbbe');
+
+/* Attempt to connect to MySQL database */
+//$con = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+//Check connection
+//if ($con === false) {
+//     die("ERROR: Could not connect. " . mysqli_connect_error());
+// }
+?>

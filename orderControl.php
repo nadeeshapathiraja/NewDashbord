@@ -16,6 +16,14 @@ require_once "config.php";
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Jquery For Get report -->
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- jQuery UI JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 
 <body>
@@ -40,10 +48,17 @@ require_once "config.php";
                         <!-- Take Filter Date -->
                         <div class="col-md-5">
                             <div class="form-group row">
-                                <label for="example-date-input" class="col-2 col-form-label">Date</label>
-                                <div class="col-10">
-                                    <input class="form-control" type="date" value="yyyy-mm-dd"
-                                        max="<?php echo date('Y-m-d'); ?>" name="filterDate">
+                                <label for="example-date-input" class="col-4 col-form-label">From Date</label>
+                                <div class="col-8">
+                                    <input class="form-control" name="from_date" id="from_date" type="date"
+                                        placeholder="ssssssssss" max="<?php echo date('Y-m-d'); ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="example-date-input" class="col-4 col-form-label">To Date</label>
+                                <div class="col-8">
+                                    <input class="form-control" name="to_date" id="to_date" type="date"
+                                        value="yyyy-mm-dd" max="<?php echo date('Y-m-d'); ?>">
                                 </div>
                             </div>
                         </div>
@@ -83,28 +98,15 @@ require_once "config.php";
             </div>
         </div>
         <br>
-        <script>
-        function toggle(source) {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i] != source)
-                    checkboxes[i].checked = source.checked;
-            }
-        }
-        </script>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" onclick="toggle(this);">
-            <label class="form-check-label" for="defaultCheck1">
-                Select All
-            </label>
-        </div>
+
+
         <br>
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th> </th>
+
                             <th>#</th>
                             <th>Name</th>
                             <th>Phone</th>
@@ -118,21 +120,25 @@ require_once "config.php";
                     </thead>
                     <tbody>
                         <?php if (isset($_POST['search'])) {
-                            $filterDate = $_POST['filterDate'];
+                            $from_date = $_POST['from_date'];
+                            $to_date = $_POST['to_date'];
                             $filterCity = $_POST['filterCity'];
 
+                            if (isset($_POST['from_date']) && isset($_POST['to_date'])) {
+                                $sqlq = "SELECT * FROM orders WHERE  ordered_at BETWEEN '" . $from_date . "' AND '" . $to_date . "' AND city LIKE '%{$filterCity}%'  ORDER BY id DESC";
+                            }
+                            if (isset($_POST['from_date'])) {
+                                $sqlq = "SELECT * FROM orders WHERE  ordered_at LIKE '%{$from_date}%' AND city LIKE '%{$filterCity}%'  ORDER BY id DESC";
+                            }
+
                             //$results = mysqli_query($con, "SELECT * FROM orders WHERE city=$filterCity AND ordered_at=$filterDate ORDER BY id DESC");
-                            $results = mysqli_query($con, "SELECT * FROM orders WHERE city LIKE '%{$filterCity}%' AND ordered_at LIKE '%{$filterDate}%' ORDER BY id DESC");
+                            $results = mysqli_query($con, $sqlq);
 
                             $i = 1;
                             while ($rows = mysqli_fetch_array($results)) { ?>
                         <tr>
                             <form action="#">
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    </div>
-                                </td>
+
                                 <td>
                                     <?php
                                             echo $i;
@@ -214,7 +220,7 @@ if (isset($_REQUEST["delete"])) {
         echo "Record Delete successfully: $result2<br />";
 ?>
 <script type="text/javascript">
-window.location = "fullcontrol.php";
+window.location = "orderControl.php";
 </script>
 <?php
     } else {
